@@ -1,9 +1,11 @@
-import Navbar from "@/Components/navbar";
+import Navbar from "@/components/navbar"
+import Hero from "@/components/hero"
 
 export default function Home() {
   return (
-    <main className="mx-24 my-8">
+    <main className="h-full mx-24">
       <Navbar />
+      <Hero />
     </main>
-  );
+  )
 }

@@ -2,7 +2,7 @@ import Title from "@/Components/title"
 
 const Navbar = () => {
   return (
-    <div className="h-12 drop-shadow-md bg-stone-400">
+    <div className="h-12 drop-shadow-md bg-stone-400 py-18 px-12">
       <Title />
     </div>
   )

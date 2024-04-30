@@ -1,6 +1,6 @@
 const Title = () => {
   return (
-    <div className="flex flex-col text-gray-800">
+    <div className="p-14">
       <h1 className="title">Inverse</h1>
       <h1 className="title italic">Matrix</h1>
     </div>

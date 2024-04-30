@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { PT_Serif } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const pt_serif = PT_Serif({ subsets: ["latin"], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
   title: "Inverse Matrix",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={pt_serif.className}>{children}</body>
     </html>
   );
 }

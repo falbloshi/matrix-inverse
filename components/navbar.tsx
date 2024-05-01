@@ -1,4 +1,4 @@
 const Navbar = () => {
-  return <div className="bg-white h-24"></div>
+  return <div className="bg-zinc-300 h-24 rounded-b-[90px]"></div>
 }
 export default Navbar

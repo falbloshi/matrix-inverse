@@ -6,7 +6,12 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {extend: {
+    fontFamily: {
+      sans: ['var(--font-pt-sans)'],
+      serif: ['var(--font-pt-serif)'],
+    },
+  },},
   plugins: [],
 }
 export default config

@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 .title {
-  @apply text-9xl font-semibold text-stone-800;
+  @apply font-serif text-9xl font-semibold text-stone-700;
 }
 
 .paragraph {
-  @apply text-3xl font-semibold text-stone-800 ;
+  @apply font-sans text-3xl font-semibold text-stone-700 ;
+}
+
+.error {
+  @apply font-sans text-xl text-red-600 
 }

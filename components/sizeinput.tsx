@@ -30,7 +30,7 @@ const SizeInput = () => {
           onChange={handleChange}
           min="2"
           max="6"
-          className="my-12 w-32 h-16 text-3xl border-2 border-b-zinc-500 p-4 outline-none bg-zinc-200"
+          className="my-12 w-32 h-16 text-3xl border-none border-b-zinc-500 p-4 outline-none bg-zinc-200"
         />
       </form>
       {!isValid && (

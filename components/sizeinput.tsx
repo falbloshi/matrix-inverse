@@ -19,7 +19,7 @@ const SizeInput = () => {
   return (
     <div>
       <p className="paragraph">
-        Please input the size of your matrix (limited to 6x6 grid)
+        Please input the size of your matrix (limited to 6x6 grid):
       </p>
       <form>
         <input
@@ -30,11 +30,14 @@ const SizeInput = () => {
           onChange={handleChange}
           min="2"
           max="6"
-          className="my-12 w-32 h-16 text-3xl border-none border-b-zinc-500 p-4 outline-none bg-zinc-200"
+          className="my-12 w-16 h-16 text-3xl border-2 border-zinc-200 border-b-red-500 p-4 outline-none bg-zinc-200 focus:border-b-green-700"
         />
       </form>
       {!isValid && (
-        <p className="error">Please insert a correct value between 2 and 6</p>
+        <div className="error">
+          {" "}
+          <p>Please insert a correct value between 2 and 6</p>
+        </div>
       )}
     </div>
   )

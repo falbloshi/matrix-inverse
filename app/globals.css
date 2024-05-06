@@ -11,5 +11,5 @@
 }
 
 .error {
-  @apply font-sans text-xl text-red-600 
+  @apply font-sans text-xl text-red-700 bg-red-200 p-4  w-fit rounded-md
 }

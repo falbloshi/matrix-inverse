@@ -34,7 +34,7 @@ const SizeInput: React.FC<SizeInputProps> = ({ value, setValue }) => {
       {!isValid && (
         <div className="error">
           {" "}
-          <p>Please insert a correct value between 2 and 6</p>
+          <p>Please insert a correct value between 2 and 4</p>
         </div>
       )}
     </div>

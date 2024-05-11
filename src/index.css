@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  font-family: serif;
+}
+
+.title {
+  @apply font-pt-serif text-9xl font-semibold text-neutral-700;
+}
+
+.paragraph {
+  @apply font-pt-sans text-3xl font-semibold text-neutral-700 ;
+}
+
+.error {
+  @apply font-pt-sans text-xl text-red-700 bg-red-200 p-4  w-fit rounded-md
+}

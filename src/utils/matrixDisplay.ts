@@ -1,6 +1,9 @@
-const mathJaxElements = (length, input) => {
+type length = number
+type input = String[]
+
+const MatrixDisplay = (length: length, input: input) => {
   const size = Math.sqrt(length)
-  let result = "["
+  let result = "`["
   for (let i = 0; i < size; i++) {
     let row = "["
     for (let j = 0; j < size; j++) {
@@ -17,6 +20,8 @@ const mathJaxElements = (length, input) => {
       result += row
     }
   }
-  result += "]"
+  result += "]`"
   return result
 }
+
+export default MatrixDisplay

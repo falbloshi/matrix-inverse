@@ -18,7 +18,7 @@ const config = {
 export default function Home() {
 
   const [value, setValue] = useState<number>(2)
-  const [inputs, setInputs] = useState<String[]>([])
+  const [inputs, setInputs] = useState<string[]>([])
 
   return (
     <MathJaxContext config={config}>

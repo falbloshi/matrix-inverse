@@ -4,8 +4,8 @@ import MatrixDisplay from "../utils/matrixDisplay"
 
 interface MatrixInputProps {
   value: number
-  inputs: String[]
-  setInputs: (inputs: String[]) => void
+  inputs: string[]
+  setInputs: (inputs: string[]) => void
 }
 
 const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) => {

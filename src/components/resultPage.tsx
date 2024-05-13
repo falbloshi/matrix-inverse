@@ -3,7 +3,7 @@ import MatrixDisplay from "../utils/matrixDisplay"
 import { MathJax } from "better-react-mathjax"
 
 interface ResultPageProps {
-  inputs: String[]
+  inputs: string[]
 }
 
 const ResultPage: React.FC<ResultPageProps> = ({ inputs }) => {
@@ -17,6 +17,7 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs }) => {
       console.log(values)
     }
   }, [inputs])
+
 
   return (
     <div>

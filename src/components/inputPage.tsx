@@ -3,9 +3,9 @@ import MatrixInput from "./matrixinput"
 
 interface InputPageProps {
   value: number
-  inputs: String[]
+  inputs: string[]
   setValue: (value: number) => void
-  setInputs: (inputs: String[]) => void
+  setInputs: (inputs: string[]) => void
 }
 
 const InputPage: React.FC<InputPageProps> = ({ value, setValue, inputs, setInputs }) => {

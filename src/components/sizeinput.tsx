@@ -2,7 +2,7 @@ import { useState } from "react"
 
 interface SizeInputProps {
   value: number;
-  setValue: (value: number) => void;
+  setValue: (value: number) => void
 }
 
 const SizeInput: React.FC<SizeInputProps> = ({ value, setValue }) => {

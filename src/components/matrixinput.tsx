@@ -4,12 +4,14 @@ import MatrixDisplay from "../utils/matrixDisplay"
 
 interface MatrixInputProps {
   value: number
+  inputs: String[]
+  setInputs: (inputs: String[]) => void
 }
 
-const MatrixInput: React.FC<MatrixInputProps> = ({ value }) => {
+const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) => {
   const numRows = value
 
-  const [inputs, setInputs] = useState<String[]>([])
+  // const [inputs, setInputs] = useState<String[]>([])
   const [display, setDisplay] = useState<String>("")
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
@@ -28,18 +30,10 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value }) => {
     inputRefs.current = newRefs
   }, [numRows])
 
-  // useEffect(() => {
-  //   const notEmpty = inputs.every(input => input.trim() !== "")
-  //   if (notEmpty) {
-  //     const values = MatrixDisplay(inputs.length, inputs)
-  //     setDisplay(values)
-  //   }
-  // }, [inputs])
-
   const grid = []
-  for (let i = 0; i < numRows; i++) {
+  for (let i = 0;i < numRows;i++) {
     const row = []
-    for (let j = 0; j < numRows; j++) {
+    for (let j = 0;j < numRows;j++) {
       const index = i * numRows + j
       row.push(
         <input
@@ -66,9 +60,8 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value }) => {
   ))
 
   useEffect(() => {
-    let values: String
     if (inputs.every(item => item.trim() != "")) {
-      values = MatrixDisplay(inputs.length, inputs)
+      const values: String = MatrixDisplay(inputs.length, inputs)
       setDisplay(values)
       console.log(values)
     }

@@ -1,7 +1,4 @@
-type length = number
-type input = String[]
-
-const MatrixDisplay = (length: length, input: input) => {
+const MatrixDisplay = (length: number, input: String[]) => {
   const size = Math.sqrt(length)
   let result = "`["
   for (let i = 0; i < size; i++) {

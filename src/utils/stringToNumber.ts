@@ -6,9 +6,11 @@ function StringToNumbers(list: string[]): number[][] {
       .split("/")
       .map((num) => parseInt(num) * 1)
 
-    if (denumerator === 0) return [numerator]
+    if (denumerator === 0 || denumerator === 1) return [numerator]
 
     return [numerator, denumerator]
   })
   return result
 }
+
+export default StringToNumbers

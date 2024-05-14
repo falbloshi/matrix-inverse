@@ -72,7 +72,6 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) =
     <>
       <div className={`grid grid-cols-[${value}] gap-4`}>{grid}</div>
       <div>{displayValues}</div>
-      <MathJax>{display}</MathJax>
     </>
   )
 }

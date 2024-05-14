@@ -8,16 +8,17 @@ interface ResultPageProps {
 
 const ResultPage: React.FC<ResultPageProps> = ({ inputs }) => {
 
-  const [display, setDisplay] = useState<String>("")
+  const [display, setDisplay] = useState<string>("")
 
   useEffect(() => {
     if (inputs.every(item => item.trim() != "")) {
-      const values: String = MatrixDisplay(inputs.length, inputs)
+      const values: string = MatrixDisplay(inputs.length, inputs)
       setDisplay(values)
-      console.log(values)
+    }
+    else {
+      setDisplay("pending")
     }
   }, [inputs])
-
 
   return (
     <div>

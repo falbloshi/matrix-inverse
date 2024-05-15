@@ -1,9 +1,6 @@
-import  StringToNumbers, { createMatrixElement }from "./stringToNumber"
-
-interface Fraction {
-  num: number
-  den: number
-}
+import createMatrixElement from "./createMatrixElement"
+import StringToNumbers from "./stringToNumber"
+import { Fraction } from "./types"
 
 const size: number = 4
 
@@ -13,17 +10,18 @@ const numls: Fraction[] = StringToNumbers(ls)
 
 console.log(numls)
 
-function createIdentityMatrix(size: number){
+function createIdentityMatrix(size: number) {
   const SIZE = Math.sqrt(size)
-  const matrix = Array.from(Array(SIZE*SIZE).fill(createMatrixElement(0)))
+  const matrix: Fraction[][] = Array.from({ length: SIZE }, () =>
+    Array(SIZE).fill(createMatrixElement(0))
+  )
 
-  const STEP = SIZE + 1 
-  for (let i = 0; i < SIZE*SIZE; i += STEP) {
-    matrix[i] = createMatrixElement(1)
+  // const STEP = SIZE + 1
+  for (let i = 0; i < SIZE; i++) {
+    matrix[i][i] = createMatrixElement(1)
   }
-  
+
   return matrix
 }
-
 
 console.log(createIdentityMatrix(size))

@@ -1,14 +1,12 @@
 import createMatrixElement from "./createMatrixElement"
-import StringToNumbers from "./stringToNumber"
+import stringToMatrixElements from "./stringToMatrixElements"
 import { Fraction } from "./types"
 
 const size: number = 4
 
-const ls: string[] = ["1", "3/2", "-2/2", "4"]
+const ls: string[] = ["1", "4", "5", "7"]
 
-const numls: Fraction[] = StringToNumbers(ls)
-
-console.log(numls)
+const numls: Fraction[] = stringToMatrixElements(ls)
 
 function createIdentityMatrix(size: number) {
   const SIZE = Math.sqrt(size)
@@ -24,4 +22,22 @@ function createIdentityMatrix(size: number) {
   return matrix
 }
 
+function createMatrixFromInput(list: Fraction[]) {
+  const size = list.length
+  const SIZE = Math.sqrt(size)
+  const matrix: Fraction[][] = Array.from({ length: SIZE }, () =>
+    Array(SIZE).fill(createMatrixElement(0))
+  )
+
+  let counter = 0
+  for (let i = 0; i < SIZE; i++) {
+    for (let j = 0; j < SIZE; j++) {
+      matrix[i][j] = list[counter]
+      counter++
+    }
+  }
+  return matrix
+}
+
 console.log(createIdentityMatrix(size))
+console.log(createMatrixFromInput(numls))

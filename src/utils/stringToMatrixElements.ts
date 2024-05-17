@@ -1,7 +1,7 @@
 import createMatrixElement from "./createMatrixElement"
-import { Fraction } from "./types"
+import { Rational } from "./types"
 
-export default function stringToMatrixElements(list: string[]): Fraction[] {
+export default function stringToMatrixElements(list: string[]): Rational[] {
   const result = list.map((element) => {
     if (element.length < 3) return createMatrixElement(parseInt(element) * 1)
 

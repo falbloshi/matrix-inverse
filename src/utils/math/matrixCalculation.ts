@@ -81,7 +81,13 @@ const gaussElimination = (
   }
 
   //row swap if current pivot is zero
-  const rowSwap = (row: number, col: number) => {
+  //if finds no non zeroes, return invertible false and end gaussian
+  const rowSwap = (
+    row: number,
+    col: number,
+    invMatrix: Matrix,
+    idMatrix: Matrix
+  ): Matrices | null => {
     const currentRow = invMatrix[row]
     let newRow: Rational[]
     let temp: Rational[]
@@ -95,17 +101,23 @@ const gaussElimination = (
         temp = idMatrix[i]
         idMatrix[i] = idMatrix[row]
         idMatrix[row] = temp
-        return
+        return { invMatrix: invMatrix, idMatrix: idMatrix }
       }
-      invertible = false
     }
+    return null
   }
 
   let col = 0
 
   console.log(invMatrix)
-  rowSwap(0, 0)
-  console.log(invMatrix, idMatrix)
+  const rowSwapResult = rowSwap(1, 1, invMatrix, idMatrix)
+  if (rowSwapResult) {
+    invMatrix = rowSwapResult.invMatrix
+    idMatrix = rowSwapResult.idMatrix
+    console.log(invMatrix, idMatrix)
+  } else {
+    console.log("Not invertible")
+  }
 
   const isPivot = findPivot(col, invMatrix[col])
 
@@ -114,9 +126,9 @@ const gaussElimination = (
   return null
 }
 
-const size: number = 4
+const size: number = 9
 
-const ls: string[] = ["0", "4/3", "5", "7"]
+const ls: string[] = ["2", "4/3", "5", "3", "0", "2", "8", "0", "5"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
 const identityMatrix = createIdentityMatrix(size)

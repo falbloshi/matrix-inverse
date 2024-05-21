@@ -1,8 +1,8 @@
-import { Fraction } from "./types"
+import { Rational } from "../types"
 
 export default function createMatrixElement(
   num: number,
   den: number = 1
-): Fraction {
+): Rational {
   return { num, den }
 }

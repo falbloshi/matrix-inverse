@@ -1,4 +1,4 @@
-import { Rational, Operation } from "./types"
+import { Rational, Operation } from "../types"
 
 //find greatest common denumerator
 const gcd = (a: number, b: number): number => {

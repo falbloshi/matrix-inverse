@@ -4,6 +4,11 @@ export interface Rational {
   den: number
 }
 
+export interface Matrices {
+  invMatrix: Matrix
+  idMatrix: Matrix
+}
+
 export type Operation = "add" | "subtract" | "multiply" | "divide"
 
 // a list of list(aka rows) - with each row containing Rational number

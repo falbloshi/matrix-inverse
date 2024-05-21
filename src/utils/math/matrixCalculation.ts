@@ -17,6 +17,7 @@ Now head to the next pivot aka (r2c2] ) do the steps above.
 import createMatrixElement from "./createMatrixElement"
 import stringToMatrixElements from "../stringToMatrixElements"
 import { Rational, Matrix, Matrices } from "../types"
+import elementaryOperations from "./elementaryOperations"
 
 function createIdentityMatrix(size: number) {
   const SIZE = Math.sqrt(size)
@@ -76,9 +77,16 @@ const gaussElimination = (
   }
 
   // if returns true, end gaussian and turn invertible into false
-  const checkRowsForZero = (row: Rational[]): boolean => {
-    return row.some((item) => checkForNonZero(item) !== null)
+  const checkRowsForZero = (currentRow: Rational[]): boolean => {
+    return currentRow.some((item) => checkForNonZero(item) !== null)
   }
+
+  //turn pivot to 1 using a row operation (which is usually dividing by itself), then affecting both inverse and id matrices
+  const reducePivot = (PIVOT: Rational, row: number, mainMatrices: Matrices) => {
+    if (PIVOT.num === 1) return PIVOT 
+    mainMatrices.invMatrix[row].map(item => elementaryOperations("divide", PIVOT, item))
+  }
+
 
   //row swap if current pivot is zero
   //if finds no non zeroes, return invertible false and end gaussian
@@ -107,18 +115,18 @@ const gaussElimination = (
     return null
   }
 
-  let col = 0
-
   console.log(invMatrix)
-  const rowSwapResult = rowSwap(1, 1, invMatrix, idMatrix)
-  if (rowSwapResult) {
-    invMatrix = rowSwapResult.invMatrix
-    idMatrix = rowSwapResult.idMatrix
-    console.log(invMatrix, idMatrix)
-  } else {
-    console.log("Not invertible")
-  }
+ // for row swap testing
+  // const rowSwapResult = rowSwap(0, 0, invMatrix, idMatrix)
+  // if (rowSwapResult) {
+  //   invMatrix = rowSwapResult.invMatrix
+  //   idMatrix = rowSwapResult.idMatrix
+  //   console.log(invMatrix, idMatrix)
+  // } else {
+  //   console.log("Not invertible")
+  // }
 
+  const col  = 1
   const isPivot = findPivot(col, invMatrix[col])
 
   PIVOT = isPivot !== null ? isPivot : "row swap"
@@ -128,7 +136,7 @@ const gaussElimination = (
 
 const size: number = 9
 
-const ls: string[] = ["2", "4/3", "5", "3", "0", "2", "8", "0", "5"]
+const ls: string[] = ["3", "4/3", "5", "2", "0", "2", "0", "4", "5"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
 const identityMatrix = createIdentityMatrix(size)

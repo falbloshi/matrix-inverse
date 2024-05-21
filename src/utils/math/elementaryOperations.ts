@@ -1,9 +1,9 @@
 import { Rational, Operation } from "../types"
 
 //find greatest common denumerator
-const gcd = (a: number, b: number): number => {
-  if (!b) return a
-  return gcd(b, a % b)
+const gcd = (num: number, den: number): number => {
+  if (!den) return num
+  return gcd(den, num % den)
 }
 
 //simplifying rational terms

@@ -89,15 +89,12 @@ const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
 
     let { idMatrix, invMatrix } = mainMatrices
 
-    let newInvRow = invMatrix[row].map((item) =>
+    invMatrix[row] = invMatrix[row].map((item) =>
       elementaryOperations("divide", item, PIVOT)
     )
-    let newIdRow = invMatrix[row].map((item) =>
+    idMatrix[row] = idMatrix[row].map((item) =>
       elementaryOperations("divide", item, PIVOT)
     )
-
-    invMatrix[row] = newInvRow
-    idMatrix[row] = newIdRow
 
     //steps for later on
     // const numForShow = PIVOT.num > 1 ? "/" + PIVOT.num : ""
@@ -119,17 +116,34 @@ const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
 
     //first reduce columns below
     //+1 to go immediately below the current pivot
-    for (let i = row + 1; i < invMatrix.length; i++) {
-      const currentNumber = invMatrix[i][col]
-      const scaledRow: Rational[] = invMatrix[row].map((item) =>
-        elementaryOperations("multiply", currentNumber, item)
-      )
-      if (currentNumber.num > 0) {
-        invMatrix[i] = invMatrix[i].map((invItem, index) => {
-          return elementaryOperations("subtract", invItem, scaledRow[index])
+    const reduceTopDown = (
+      currentRow: number,
+      currentCol: number,
+      matrix: Matrix
+    ): Matrix => {
+      for (let i = row + 1; i < matrix.length; i++) {
+        const currentNumber = matrix[i][col]
+        const scaledRow: Rational[] = matrix[row].map((item) =>
+          elementaryOperations("multiply", currentNumber, item)
+        )
+
+        const operation = currentNumber.num > 0 ? "subtract" : "add"
+
+        matrix[i] = matrix[i].map((invItem, index) => {
+          return elementaryOperations(operation, invItem, scaledRow[index])
         })
       }
+      return matrix
     }
+
+    ;[invMatrix, idMatrix] = [
+      reduceTopDown(row, col, invMatrix),
+      reduceTopDown(row, col, idMatrix),
+    ]
+
+    console.log(invMatrix)
+    console.log(idMatrix)
+
     return null
   }
 
@@ -147,15 +161,10 @@ const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
     for (let i = row; i < invMatrix.length; i++) {
       const isNonZero = checkForNonZero(invMatrix[i][col])
       if (isNonZero) {
-        newRow = invMatrix[i]
-        invMatrix[i] = currentRow
-        invMatrix[row] = newRow
-        //also swap id matrix
-        temp = idMatrix[i]
-        idMatrix[i] = idMatrix[row]
-        idMatrix[row] = temp
+        ;[invMatrix[i], invMatrix[row]] = [invMatrix[row], invMatrix[i]]
+        ;[idMatrix[i], idMatrix[row]] = [idMatrix[row], idMatrix[i]]
 
-        return { invMatrix: invMatrix, idMatrix: idMatrix }
+        return { invMatrix, idMatrix }
       }
     }
     return null

@@ -9,6 +9,13 @@ export interface Matrices {
   idMatrix: Matrix
 }
 
+export interface Pivot {
+  pivotNum: Rational,
+  row: number,
+  col: number
+}
+
+
 export type Operation = "add" | "subtract" | "multiply" | "divide"
 
 // a list of list(aka rows) - with each row containing Rational number

@@ -90,29 +90,44 @@ const gaussElimination = (
   ): Matrices => {
     if (PIVOT.num === 1) return mainMatrices
 
-    let newInvRow = mainMatrices.invMatrix[row].map((item) =>
+    let {idMatrix, invMatrix} = mainMatrices
+
+    let newInvRow = invMatrix[row].map((item) =>
       elementaryOperations("divide", item, PIVOT)
     )
-    let newIdRow = mainMatrices.invMatrix[row].map((item) =>
+    let newIdRow = invMatrix[row].map((item) =>
       elementaryOperations("divide", item, PIVOT)
     )
 
-    mainMatrices.invMatrix[row] = newInvRow
-    mainMatrices.idMatrix[row] = newIdRow
+    invMatrix[row] = newInvRow
+    idMatrix[row] = newIdRow
 
     //steps for later on
     // const numForShow = PIVOT.num > 1 ? "/" + PIVOT.num : ""
     // Steps.push(`R${row}rarr${PIVOT.den}${numForShow}*R${row}`)
 
-    return mainMatrices
+    return {idMatrix, invMatrix}
   }
+
 
   const reduceColumns = (
     PIVOT: Rational,
     row: number,
+    col: number,
     mainMatrices: Matrices
   ): Matrices | null => {
+    //row and col belongs to the pivot
+
     //first reduce columns below
+    let {idMatrix, invMatrix} = mainMatrices
+    
+    for(let i = row; i < idMatrix.length; i++) {
+      const currentNumber = idMatrix[row][col]
+      elementaryOperations()
+    }
+    
+    
+    
 
     return null
   }

@@ -51,9 +51,10 @@ const gaussElimination = (
   inputMatrix: Matrix,
   identityMatrix: Matrix
 ): Matrix | any => {
-  const Steps = []
+  const Steps: String[] = []
   let invMatrix = inputMatrix
   let idMatrix = identityMatrix
+  let updatedMatrices: Matrices
 
   let PIVOT: Rational | "row swap"
   let invertible = true
@@ -82,11 +83,39 @@ const gaussElimination = (
   }
 
   //turn pivot to 1 using a row operation (which is usually dividing by itself), then affecting both inverse and id matrices
-  const reducePivot = (PIVOT: Rational, row: number, mainMatrices: Matrices) => {
-    if (PIVOT.num === 1) return PIVOT 
-    mainMatrices.invMatrix[row].map(item => elementaryOperations("divide", PIVOT, item))
+  const reducePivot = (
+    PIVOT: Rational,
+    row: number,
+    mainMatrices: Matrices
+  ): Matrices => {
+    if (PIVOT.num === 1) return mainMatrices
+
+    let newInvRow = mainMatrices.invMatrix[row].map((item) =>
+      elementaryOperations("divide", item, PIVOT)
+    )
+    let newIdRow = mainMatrices.invMatrix[row].map((item) =>
+      elementaryOperations("divide", item, PIVOT)
+    )
+
+    mainMatrices.invMatrix[row] = newInvRow
+    mainMatrices.idMatrix[row] = newIdRow
+
+    //steps for later on
+    // const numForShow = PIVOT.num > 1 ? "/" + PIVOT.num : ""
+    // Steps.push(`R${row}rarr${PIVOT.den}${numForShow}*R${row}`)
+
+    return mainMatrices
   }
 
+  const reduceColumns = (
+    PIVOT: Rational,
+    row: number,
+    mainMatrices: Matrices
+  ): Matrices | null => {
+    //first reduce columns below
+
+    return null
+  }
 
   //row swap if current pivot is zero
   //if finds no non zeroes, return invertible false and end gaussian
@@ -109,6 +138,7 @@ const gaussElimination = (
         temp = idMatrix[i]
         idMatrix[i] = idMatrix[row]
         idMatrix[row] = temp
+
         return { invMatrix: invMatrix, idMatrix: idMatrix }
       }
     }
@@ -116,7 +146,7 @@ const gaussElimination = (
   }
 
   console.log(invMatrix)
- // for row swap testing
+  // for row swap testing
   // const rowSwapResult = rowSwap(0, 0, invMatrix, idMatrix)
   // if (rowSwapResult) {
   //   invMatrix = rowSwapResult.invMatrix
@@ -126,17 +156,22 @@ const gaussElimination = (
   //   console.log("Not invertible")
   // }
 
-  const col  = 1
+  const col = 0
   const isPivot = findPivot(col, invMatrix[col])
 
   PIVOT = isPivot !== null ? isPivot : "row swap"
+
+  updatedMatrices = reducePivot(invMatrix[1][1], 1, {
+    invMatrix: invMatrix,
+    idMatrix: idMatrix,
+  })
 
   return null
 }
 
 const size: number = 9
 
-const ls: string[] = ["3", "4/3", "5", "2", "0", "2", "0", "4", "5"]
+const ls: string[] = ["-4", "4/3", "5", "2", "2/3", "2", "9", "4", "5"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
 const identityMatrix = createIdentityMatrix(size)

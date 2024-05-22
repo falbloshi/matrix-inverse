@@ -20,7 +20,7 @@ const elementaryOperations = <T extends Operation>(
   operation: T,
   firstNumber: Rational,
   secondNumber: Rational
-): Rational | null => {
+): Rational => {
   switch (operation) {
     case "add":
       return addition(firstNumber, secondNumber)
@@ -32,7 +32,7 @@ const elementaryOperations = <T extends Operation>(
       return division(firstNumber, secondNumber)
   }
 
-  return null
+  return firstNumber
 }
 
 const addition = (firstNumber: Rational, secondNumber: Rational): Rational => {
@@ -99,12 +99,12 @@ const division = (firstItem: Rational, secondItem: Rational): Rational => {
   })
 }
 
-const what: Rational = { num: 5, den: 3 }
-const yes: Rational = { num: -4, den: 2 }
+// const what: Rational = { num: 5, den: 3 }
+// const yes: Rational = { num: -4, den: 2 }
 
-console.log(elementaryOperations("add", what, yes))
-console.log(elementaryOperations("subtract", what, yes))
-console.log(elementaryOperations("multiply", what, yes))
-console.log(elementaryOperations("divide", what, yes))
+// console.log(elementaryOperations("add", what, yes))
+// console.log(elementaryOperations("subtract", what, yes))
+// console.log(elementaryOperations("multiply", what, yes))
+// console.log(elementaryOperations("divide", what, yes))
 
 export default elementaryOperations

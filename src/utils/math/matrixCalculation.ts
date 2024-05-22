@@ -47,16 +47,13 @@ function createMatrixFromInput(list: Rational[]) {
   return matrix
 }
 
-const gaussElimination = (
-  inputMatrix: Matrix,
-  identityMatrix: Matrix
-): Matrix | any => {
+const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
   const Steps: String[] = []
-  let invMatrix = inputMatrix
-  let idMatrix = identityMatrix
+  let { invMatrix, idMatrix } = inputMatrices
+
   let updatedMatrices: Matrices
 
-  let PIVOT: Rational | "row swap"
+  let PIVOT: Rational | null
   let invertible = true
 
   type rowOperations =
@@ -90,7 +87,7 @@ const gaussElimination = (
   ): Matrices => {
     if (PIVOT.num === 1) return mainMatrices
 
-    let {idMatrix, invMatrix} = mainMatrices
+    let { idMatrix, invMatrix } = mainMatrices
 
     let newInvRow = invMatrix[row].map((item) =>
       elementaryOperations("divide", item, PIVOT)
@@ -106,29 +103,33 @@ const gaussElimination = (
     // const numForShow = PIVOT.num > 1 ? "/" + PIVOT.num : ""
     // Steps.push(`R${row}rarr${PIVOT.den}${numForShow}*R${row}`)
 
-    return {idMatrix, invMatrix}
+    return { idMatrix, invMatrix }
   }
 
-
   const reduceColumns = (
-    PIVOT: Rational,
+    PIVOT: Rational | null,
     row: number,
     col: number,
     mainMatrices: Matrices
   ): Matrices | null => {
+    if (PIVOT === null) return null
     //row and col belongs to the pivot
 
-    //first reduce columns below
-    let {idMatrix, invMatrix} = mainMatrices
-    
-    for(let i = row; i < idMatrix.length; i++) {
-      const currentNumber = idMatrix[row][col]
-      elementaryOperations()
-    }
-    
-    
-    
+    let { idMatrix, invMatrix } = mainMatrices
 
+    //first reduce columns below
+    //+1 to go immediately below the current pivot
+    for (let i = row + 1; i < invMatrix.length; i++) {
+      const currentNumber = invMatrix[i][col]
+      const scaledRow: Rational[] = invMatrix[row].map((item) =>
+        elementaryOperations("multiply", currentNumber, item)
+      )
+      if (currentNumber.num > 0) {
+        invMatrix[i] = invMatrix[i].map((invItem, index) => {
+          return elementaryOperations("subtract", invItem, scaledRow[index])
+        })
+      }
+    }
     return null
   }
 
@@ -171,15 +172,18 @@ const gaussElimination = (
   //   console.log("Not invertible")
   // }
 
-  const col = 0
-  const isPivot = findPivot(col, invMatrix[col])
+  const column = 0
+  const isPivot = findPivot(column, invMatrix[column])
 
-  PIVOT = isPivot !== null ? isPivot : "row swap"
+  PIVOT = isPivot
 
-  updatedMatrices = reducePivot(invMatrix[1][1], 1, {
+  updatedMatrices = reducePivot(invMatrix[0][0], 0, {
     invMatrix: invMatrix,
     idMatrix: idMatrix,
   })
+  console.log(updatedMatrices.invMatrix)
+
+  reduceColumns(PIVOT, 0, 0, updatedMatrices)
 
   return null
 }
@@ -195,4 +199,4 @@ const inputMatrix = createMatrixFromInput(numls)
 // console.log(identityMatrix)
 // console.log(inputMatrix)
 
-gaussElimination(inputMatrix, identityMatrix)
+gaussElimination({ invMatrix: inputMatrix, idMatrix: identityMatrix })

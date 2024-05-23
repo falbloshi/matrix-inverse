@@ -122,12 +122,14 @@ const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
       matrix: Matrix
     ): Matrix => {
       for (let i = row + 1; i < matrix.length; i++) {
-        const currentNumber = matrix[i][col]
-        const scaledRow: Rational[] = matrix[row].map((item) =>
-          elementaryOperations("multiply", currentNumber, item)
+        const reductionNumber = matrix[i][currentCol]
+        const scaledRow: Rational[] = matrix[currentRow].map((item) =>
+          elementaryOperations("multiply", reductionNumber, item)
         )
 
-        const operation = currentNumber.num > 0 ? "subtract" : "add"
+        const operation = reductionNumber.num > 0 ? "subtract" : "add"
+        
+        if (reductionNumber.num === 0) continue
 
         matrix[i] = matrix[i].map((invItem, index) => {
           return elementaryOperations(operation, invItem, scaledRow[index])
@@ -136,10 +138,35 @@ const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
       return matrix
     }
 
-    ;[invMatrix, idMatrix] = [
-      reduceTopDown(row, col, invMatrix),
-      reduceTopDown(row, col, idMatrix),
-    ]
+    const reduceBottomUp = (
+      currentRow: number,
+      currentCol: number,
+      matrix: Matrix
+    ): Matrix => {
+      for (let i = matrix.length; i > currentRow - 1; i--) {
+        const reductionNumber = matrix[i][currentCol]
+        const scaledRow: Rational[] = matrix[currentRow].map((item) =>
+          elementaryOperations("multiply", reductionNumber, item)
+        )
+
+        const operation = reductionNumber.num > 0 ? "subtract" : "add"
+        
+        if (reductionNumber.num === 0) continue
+
+        matrix[i] = matrix[i].map((invItem, index) => {
+          return elementaryOperations(operation, invItem, scaledRow[index])
+        })
+      }
+      return matrix
+    } 
+
+    // ;[invMatrix, idMatrix] = [
+    //   reduceTopDown(row, col, invMatrix),
+    //   reduceTopDown(row, col, idMatrix),
+    // ]
+
+    [invMatrix, idMatrix] = [reduceBottomUp(row, col, invMatrix),
+    reduceBottomUp(row, col, idMatrix)]
 
     console.log(invMatrix)
     console.log(idMatrix)
@@ -186,20 +213,20 @@ const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
 
   PIVOT = isPivot
 
-  updatedMatrices = reducePivot(invMatrix[0][0], 0, {
+  updatedMatrices = reducePivot(invMatrix[2][2], 2, {
     invMatrix: invMatrix,
     idMatrix: idMatrix,
   })
   console.log(updatedMatrices.invMatrix)
 
-  reduceColumns(PIVOT, 0, 0, updatedMatrices)
+  reduceColumns(PIVOT, 2, 2, updatedMatrices)
 
   return null
 }
 
 const size: number = 9
 
-const ls: string[] = ["-4", "4/3", "5", "2", "2/3", "2", "9", "4", "5"]
+const ls: string[] = ["3/2", "12", "5", "8", "2", "7", "3", "4", "5"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
 const identityMatrix = createIdentityMatrix(size)

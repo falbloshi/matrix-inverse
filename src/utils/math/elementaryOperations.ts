@@ -99,12 +99,4 @@ const division = (firstItem: Rational, secondItem: Rational): Rational => {
   })
 }
 
-// const what: Rational = { num: 5, den: 3 }
-// const yes: Rational = { num: -4, den: 2 }
-
-// console.log(elementaryOperations("add", what, yes))
-// console.log(elementaryOperations("subtract", what, yes))
-// console.log(elementaryOperations("multiply", what, yes))
-// console.log(elementaryOperations("divide", what, yes))
-
 export default elementaryOperations

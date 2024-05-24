@@ -17,7 +17,7 @@ Now head to the next pivot aka (r2c2] ) do the steps above.
 import createMatrixElement from "./createMatrixElement"
 import stringToMatrixElements from "../stringToMatrixElements"
 import { Rational, Matrix, Matrices } from "../types"
-import elementaryOperations from "./elementaryOperations"
+import reduceMatrix from "./rowOperations"
 
 function createIdentityMatrix(size: number) {
   const SIZE = Math.sqrt(size)
@@ -49,190 +49,80 @@ function createMatrixFromInput(list: Rational[]) {
 
 const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
   const Steps: String[] = []
-  let { invMatrix, idMatrix } = inputMatrices
 
-  let updatedMatrices: Matrices
+  let updatedMatrices: Matrices = inputMatrices
 
-  let PIVOT: Rational | null
   let invertible = true
 
-  type rowOperations =
-    | "find pivot"
-    | "row swap"
-    | "reduce columns"
-    | "check row for zeros"
-    | "find scaling factor"
+  console.log(inputMatrices.invMatrix, inputMatrices.idMatrix)
 
-  //returns input if non zero, otherwise null
-  const checkForNonZero = (input: Rational): Rational | null => {
-    if (input.num !== 0) return input
-    return null
-  }
+  for (let rowCol = 0; rowCol < updatedMatrices.invMatrix.length; rowCol++) {
+    if (rowCol === 0) {
+      console.log("start")
 
-  //if returns null, do a row swap
-  const findPivot = (currentCol: number, row: Rational[]): Rational | null => {
-    return checkForNonZero(row[currentCol])
-  }
+      updatedMatrices = reduceMatrix(
+        rowCol,
+        rowCol,
+        updatedMatrices,
+        "top-down",
+        invertible
+      )
+      console.log(updatedMatrices.invMatrix, updatedMatrices.idMatrix)
+    } else if (rowCol === updatedMatrices.invMatrix.length - 1) {
+      console.log("end")
+      updatedMatrices = reduceMatrix(
+        rowCol,
+        rowCol,
+        updatedMatrices,
+        "bottom-up",
+        invertible
+      )
+      console.log(updatedMatrices.invMatrix, updatedMatrices.idMatrix)
+    } else if (rowCol > 0 && rowCol < inputMatrices.invMatrix.length - 1) {
+      console.log("middle")
 
-  // if returns true, end gaussian and turn invertible into false
-  const checkRowsForZero = (currentRow: Rational[]): boolean => {
-    return currentRow.some((item) => checkForNonZero(item) !== null)
-  }
-
-  //turn pivot to 1 using a row operation (which is usually dividing by itself), then affecting both inverse and id matrices
-  const reducePivot = (
-    PIVOT: Rational,
-    row: number,
-    mainMatrices: Matrices
-  ): Matrices => {
-    if (PIVOT.num === 1) return mainMatrices
-
-    let { idMatrix, invMatrix } = mainMatrices
-
-    invMatrix[row] = invMatrix[row].map((item) =>
-      elementaryOperations("divide", item, PIVOT)
-    )
-    idMatrix[row] = idMatrix[row].map((item) =>
-      elementaryOperations("divide", item, PIVOT)
-    )
-
-    //steps for later on
-    // const numForShow = PIVOT.num > 1 ? "/" + PIVOT.num : ""
-    // Steps.push(`R${row}rarr${PIVOT.den}${numForShow}*R${row}`)
-
-    return { idMatrix, invMatrix }
-  }
-
-  const reduceColumns = (
-    PIVOT: Rational | null,
-    row: number,
-    col: number,
-    mainMatrices: Matrices
-  ): Matrices | null => {
-    if (PIVOT === null) return null
-    //row and col belongs to the pivot
-
-    let { idMatrix, invMatrix } = mainMatrices
-
-    //first reduce columns below
-    //+1 to go immediately below the current pivot
-    const reduceTopDown = (
-      currentRow: number,
-      currentCol: number,
-      matrix: Matrix
-    ): Matrix => {
-      for (let i = row + 1; i < matrix.length; i++) {
-        const reductionNumber = matrix[i][currentCol]
-        const scaledRow: Rational[] = matrix[currentRow].map((item) =>
-          elementaryOperations("multiply", reductionNumber, item)
-        )
-
-        const operation = reductionNumber.num > 0 ? "subtract" : "add"
-        
-        if (reductionNumber.num === 0) continue
-
-        matrix[i] = matrix[i].map((invItem, index) => {
-          return elementaryOperations(operation, invItem, scaledRow[index])
-        })
-      }
-      return matrix
+      updatedMatrices = reduceMatrix(
+        rowCol,
+        rowCol,
+        updatedMatrices,
+        "top-down",
+        invertible
+      )
+      updatedMatrices = reduceMatrix(
+        rowCol,
+        rowCol,
+        updatedMatrices,
+        "bottom-up",
+        invertible
+      )
     }
-
-    const reduceBottomUp = (
-      currentRow: number,
-      currentCol: number,
-      matrix: Matrix
-    ): Matrix => {
-      for (let i = matrix.length; i > currentRow - 1; i--) {
-        const reductionNumber = matrix[i][currentCol]
-        const scaledRow: Rational[] = matrix[currentRow].map((item) =>
-          elementaryOperations("multiply", reductionNumber, item)
-        )
-
-        const operation = reductionNumber.num > 0 ? "subtract" : "add"
-        
-        if (reductionNumber.num === 0) continue
-
-        matrix[i] = matrix[i].map((invItem, index) => {
-          return elementaryOperations(operation, invItem, scaledRow[index])
-        })
-      }
-      return matrix
-    } 
-
-    // ;[invMatrix, idMatrix] = [
-    //   reduceTopDown(row, col, invMatrix),
-    //   reduceTopDown(row, col, idMatrix),
-    // ]
-
-    [invMatrix, idMatrix] = [reduceBottomUp(row, col, invMatrix),
-    reduceBottomUp(row, col, idMatrix)]
-
-    console.log(invMatrix)
-    console.log(idMatrix)
-
-    return null
   }
 
-  //row swap if current pivot is zero
-  //if finds no non zeroes, return invertible false and end gaussian
-  const rowSwap = (
-    row: number,
-    col: number,
-    invMatrix: Matrix,
-    idMatrix: Matrix
-  ): Matrices | null => {
-    const currentRow = invMatrix[row]
-    let newRow: Rational[]
-    let temp: Rational[]
-    for (let i = row; i < invMatrix.length; i++) {
-      const isNonZero = checkForNonZero(invMatrix[i][col])
-      if (isNonZero) {
-        ;[invMatrix[i], invMatrix[row]] = [invMatrix[row], invMatrix[i]]
-        ;[idMatrix[i], idMatrix[row]] = [idMatrix[row], idMatrix[i]]
+  // console.log(
+  //   "after full row operations",
+  //   updatedMatrices.invMatrix,
+  //   updatedMatrices.idMatrix
+  // )
 
-        return { invMatrix, idMatrix }
-      }
-    }
-    return null
-  }
+  //testing area
+  // console.log(inputMatrices.invMatrix, inputMatrices.idMatrix)
 
-  console.log(invMatrix)
-  // for row swap testing
-  // const rowSwapResult = rowSwap(0, 0, invMatrix, idMatrix)
-  // if (rowSwapResult) {
-  //   invMatrix = rowSwapResult.invMatrix
-  //   idMatrix = rowSwapResult.idMatrix
-  //   console.log(invMatrix, idMatrix)
-  // } else {
-  //   console.log("Not invertible")
+  // let result = reduceMatrix(0, 0, inputMatrices, "top-down", true)
+  // if (result) {
+  //   console.log(
+  //     "result after first topdown reduction from first pivot",
+  //     result.invMatrix,
+  //     result.idMatrix
+  //   )
   // }
-
-  const column = 0
-  const isPivot = findPivot(column, invMatrix[column])
-
-  PIVOT = isPivot
-
-  updatedMatrices = reducePivot(invMatrix[2][2], 2, {
-    invMatrix: invMatrix,
-    idMatrix: idMatrix,
-  })
-  console.log(updatedMatrices.invMatrix)
-
-  reduceColumns(PIVOT, 2, 2, updatedMatrices)
 
   return null
 }
 
-const size: number = 9
-
-const ls: string[] = ["3/2", "12", "5", "8", "2", "7", "3", "4", "5"]
+const ls: string[] = ["3", "2", "5", "4"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
-const identityMatrix = createIdentityMatrix(size)
+const identityMatrix = createIdentityMatrix(numls.length)
 const inputMatrix = createMatrixFromInput(numls)
-
-// console.log(identityMatrix)
-// console.log(inputMatrix)
 
 gaussElimination({ invMatrix: inputMatrix, idMatrix: identityMatrix })

@@ -25,7 +25,11 @@ const scaleRow = (
   reductionNumberInv: Rational
 ): Rational[] =>
   matrix[currentRow].map((item) =>
-    elementaryOperations("multiply", reductionNumberInv, item)
+    elementaryOperations(
+      "multiply",
+      { num: Math.abs(reductionNumberInv.num), den: reductionNumberInv.den },
+      item
+    )
   )
 
 const rowOperation = (
@@ -38,14 +42,15 @@ const rowOperation = (
     elementaryOperations(operation, item, scaledRow[index])
   )
 
-const reducePivot = (
+const normalizePivot = (
   invPivot: Rational,
   currentRow: number,
   invMatrix: Matrix,
   idMatrix: Matrix,
   Steps: Snapshot[]
 ): [Matrix, Matrix, Snapshot[]] => {
-  if (invPivot.num === 1) return [invMatrix, idMatrix, Steps]
+  if (invPivot.num === 1 && invPivot.den === 1)
+    return [invMatrix, idMatrix, Steps]
 
   invMatrix[currentRow] = invMatrix[currentRow].map((item) =>
     elementaryOperations("divide", item, invPivot)
@@ -127,7 +132,7 @@ const reduceMatrix = (
     }
   }
 
-  ;[invMatrix, idMatrix, Steps] = reducePivot(
+  ;[invMatrix, idMatrix, Steps] = normalizePivot(
     invPivot,
     currentRow,
     invMatrix,

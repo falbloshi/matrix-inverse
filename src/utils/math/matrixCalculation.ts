@@ -77,12 +77,127 @@ const gaussElimination = (inputMatrices: Matrices): Snapshot[] | boolean => {
   return Steps
 }
 
-const ls: string[] = ["0", "2", "1", "4"]
+const ls: string[] = ["1", "2", "3", "4"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
 const identityMatrix = createIdentityMatrix(numls.length)
 const inputMatrix = createMatrixFromInput(numls)
 
 console.log(
-  gaussElimination({ invMatrix: inputMatrix, idMatrix: identityMatrix })
+  gaussElimination({
+    invMatrix: createMatrixFromInput(
+      stringToMatrixElements(["1", "2", "3", "4"])
+    ),
+    idMatrix: createIdentityMatrix(4),
+  })
 )
+console.log(
+  gaussElimination({
+    invMatrix: createMatrixFromInput(
+      stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
+    ),
+    idMatrix: createIdentityMatrix(4),
+  })
+)
+console.log(
+  gaussElimination({
+    invMatrix: createMatrixFromInput(
+      stringToMatrixElements(["2", "-3", "4", "5"])
+    ),
+    idMatrix: createIdentityMatrix(4),
+  })
+)
+// console.log(
+//   gaussElimination({
+//     invMatrix: createMatrixFromInput(
+//       stringToMatrixElements(["1", "2", "3", "4", "5", "6", "7", "8", "9"])
+//     ),
+//     idMatrix: createIdentityMatrix(9),
+//   })
+// )
+// console.log(
+//   gaussElimination({
+//     invMatrix: createMatrixFromInput(
+//       stringToMatrixElements([
+//         "1/2",
+//         "1/3",
+//         "1/4",
+//         "1/5",
+//         "1/6",
+//         "1/7",
+//         "1/8",
+//         "1/9",
+//         "1/10",
+//       ])
+//     ),
+//     idMatrix: createIdentityMatrix(9),
+//   })
+// )
+// console.log(
+//   gaussElimination({
+//     invMatrix: createMatrixFromInput(
+//       stringToMatrixElements([
+//         "2/3",
+//         "-1",
+//         "4/5",
+//         "-2",
+//         "3/4",
+//         "1/2",
+//         "7/8",
+//         "5/6",
+//         "-1/3",
+//       ])
+//     ),
+//     idMatrix: createIdentityMatrix(9),
+//   })
+// )
+// console.log(
+//   gaussElimination({
+//     invMatrix: createMatrixFromInput(
+//       stringToMatrixElements([
+//         "2",
+//         "-1",
+//         "0",
+//         "3",
+//         "1",
+//         "2",
+//         "4",
+//         "-2",
+//         "3",
+//         "-2",
+//         "1",
+//         "0",
+//         "4",
+//         "1",
+//         "-3",
+//         "2",
+//       ])
+//     ),
+//     idMatrix: createIdentityMatrix(16),
+//   })
+// )
+// console.log(
+//   gaussElimination({
+//     invMatrix: createMatrixFromInput(
+//       stringToMatrixElements([
+//         "3/2",
+//         "2/3",
+//         "-1/4",
+//         "5/6",
+//         "-2/3",
+//         "4/5",
+//         "1/2",
+//         "-3/4",
+//         "1/3",
+//         "-5/6",
+//         "2/7",
+//         "3/8",
+//         "-1/2",
+//         "2/3",
+//         "-3/4",
+//         "1/5",
+//       ])
+//     ),
+//     idMatrix: createIdentityMatrix(16),
+//   })
+// )

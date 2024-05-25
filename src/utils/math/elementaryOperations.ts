@@ -8,11 +8,25 @@ const gcd = (num: number, den: number): number => {
 
 //simplifying rational terms
 const simplify = (number: Rational): Rational => {
-  if (number.den == 1) return number
+  let { num, den } = number
+
+  if (den === 0) {
+    throw new Error("Denominator cannot be zero.")
+  }
+
+  if (num === 0) {
+    return { num: 0, den: 1 }
+  }
+
+  if (den < 0) {
+    num = -num
+    den = -den
+  }
+
   const divisor = Math.abs(gcd(number.num, number.den))
   return {
-    num: number.num / divisor,
-    den: number.den / divisor,
+    num: num / divisor,
+    den: den / divisor,
   }
 }
 
@@ -39,33 +53,20 @@ const addition = (firstNumber: Rational, secondNumber: Rational): Rational => {
   const first = simplify(firstNumber)
   const second = simplify(secondNumber)
 
-  const absFirstDen = first.den
-  const absSecondDen = second.den
+  const num = first.num * second.den + second.num * first.den
+  const den = first.den * second.den
 
-  if (absFirstDen == absSecondDen) {
-    const add = first.num + second.num
-    return simplify({ num: add, den: absFirstDen })
-  } else {
-    const num = first.num * absSecondDen + second.num * absFirstDen
-    const den = absFirstDen * absSecondDen
-
-    return simplify({ num, den })
-  }
+  return simplify({ num, den })
 }
 
 const subtraction = (firstItem: Rational, secondItem: Rational): Rational => {
   const first = simplify(firstItem)
   const second = simplify(secondItem)
 
-  if (first.den == second.den) {
-    const add = first.num - second.num
-    return simplify({ num: add, den: second.den })
-  } else {
-    const num = first.num * second.den - second.num * first.den
-    const den = first.den * second.den
+  const num = first.num * second.den - second.num * first.den
+  const den = first.den * second.den
 
-    return simplify({ num, den })
-  }
+  return simplify({ num, den })
 }
 
 const multiplication = (
@@ -82,20 +83,12 @@ const division = (firstItem: Rational, secondItem: Rational): Rational => {
   const first = simplify(firstItem)
   const second = simplify(secondItem)
 
-  //flipping denumerator
-  const { num, den } = second
-  const flippedSecond: Rational = { num: den, den: num }
-
-  //transfer the negative to the numerator
-  let numer = first.num * flippedSecond.num
-  let denum = first.den * flippedSecond.den
-
-  numer *= Math.abs(denum) === denum ? 1 : -1
-  denum = Math.abs(denum)
+  let num = first.num * second.den
+  let den = first.den * second.num
 
   return simplify({
-    num: numer,
-    den: denum,
+    num: num,
+    den: den,
   })
 }
 

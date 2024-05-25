@@ -10,13 +10,7 @@ const gcd = (num: number, den: number): number => {
 const simplify = (number: Rational): Rational => {
   let { num, den } = number
 
-  if (den === 0) {
-    throw new Error("Denominator cannot be zero.")
-  }
-
-  if (num === 0) {
-    return { num: 0, den: 1 }
-  }
+  if (num === 0) return { num: 0, den: 1 }
 
   if (den < 0) {
     num = -num

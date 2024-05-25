@@ -62,43 +62,11 @@ const gaussElimination = (inputMatrices: Matrices): Snapshot[] | boolean => {
   let invertible: boolean = true
 
   for (let rowCol = 0; rowCol < updatedMatrices.invMatrix.length; rowCol++) {
-    if (rowCol === 0 && invertible) {
+    if (invertible) {
       ;[updatedMatrices, Steps, invertible] = reduceMatrix(
         rowCol,
         rowCol,
         updatedMatrices,
-        "top-down",
-        Steps,
-        invertible
-      )
-    } else if (rowCol === updatedMatrices.invMatrix.length - 1 && invertible) {
-      ;[updatedMatrices, Steps, invertible] = reduceMatrix(
-        rowCol,
-        rowCol,
-        updatedMatrices,
-        "bottom-up",
-        Steps,
-        invertible
-      )
-    } else if (
-      rowCol > 0 &&
-      rowCol < inputMatrices.invMatrix.length - 1 &&
-      invertible
-    ) {
-      console.log("middle")
-      ;[updatedMatrices, Steps, invertible] = reduceMatrix(
-        rowCol,
-        rowCol,
-        updatedMatrices,
-        "top-down",
-        Steps,
-        invertible
-      )
-      ;[updatedMatrices, Steps] = reduceMatrix(
-        rowCol,
-        rowCol,
-        updatedMatrices,
-        "bottom-up",
         Steps,
         invertible
       )

@@ -58,7 +58,7 @@ const reducePivot = (
   Steps.push({
     invMatrix: matrixElementToString(invMatrix),
     idMatrix: matrixElementToString(idMatrix),
-    rowOps: `R${currentRow + 1}rarr${invPivot.den}${numForShow}*R${
+    rowOps: `R${currentRow + 1} rarr ${invPivot.den}${numForShow} * R${
       currentRow + 1
     }`,
   })
@@ -85,7 +85,7 @@ const rowSwap = (
       Steps.push({
         invMatrix: matrixElementToString(invMatrix),
         idMatrix: matrixElementToString(idMatrix),
-        rowOps: `R${currentRow + 1}harrR${i + 1}`,
+        rowOps: `R${currentRow + 1} harr R${i + 1}`,
       })
       return [{ invMatrix, idMatrix }, Steps]
     }
@@ -96,7 +96,6 @@ const reduceMatrix = (
   currentRow: number,
   currentCol: number,
   matrices: Matrices,
-  direction: Direction,
   Steps: Snapshot[],
   invertible: boolean
 ): [Matrices, Snapshot[], boolean] => {
@@ -105,10 +104,6 @@ const reduceMatrix = (
   invertible = checkRowsForZero(invMatrix[currentRow])
 
   if (invertible === false) return [matrices, Steps, invertible]
-
-  const rowStart = direction === "top-down" ? currentRow + 1 : currentRow - 1
-  const rowEnd = direction === "top-down" ? invMatrix.length : -1
-  const iteration = direction === "top-down" ? 1 : -1
 
   let invPivot = invMatrix[currentRow][currentCol]
 
@@ -141,50 +136,51 @@ const reduceMatrix = (
   )
 
   if (invertible) {
-    for (
-      let i = rowStart;
-      direction === "top-down" ? i < rowEnd : i > rowEnd;
-      i += iteration
-    ) {
-      const reductionNumberInv = invMatrix[i][currentCol]
+    const directions = ["top-down", "bottom-up"]
+    for (const dir of directions) {
+      const rowStart = dir === "top-down" ? currentRow + 1 : currentRow - 1
+      const rowEnd = dir === "top-down" ? invMatrix.length : -1
+      const iteration = dir === "top-down" ? 1 : -1
 
-      if (reductionNumberInv.num === 0) continue
+      for (
+        let i = rowStart;
+        dir === "top-down" ? i < rowEnd : i > rowEnd;
+        i += iteration
+      ) {
+        const reductionNumberInv = invMatrix[i][currentCol]
 
-      const scaledInvRow: Rational[] = scaleRow(
-        invMatrix,
-        currentRow,
-        reductionNumberInv
-      )
-      const scaledIdRow: Rational[] = scaleRow(
-        idMatrix,
-        currentRow,
-        reductionNumberInv
-      )
+        if (reductionNumberInv.num === 0) continue
 
-      const operation = reductionNumberInv.num > 0 ? "subtract" : "add"
+        const scaledInvRow: Rational[] = scaleRow(
+          invMatrix,
+          currentRow,
+          reductionNumberInv
+        )
+        const scaledIdRow: Rational[] = scaleRow(
+          idMatrix,
+          currentRow,
+          reductionNumberInv
+        )
 
-      if (reductionNumberInv.num === 0) continue
+        const operation = reductionNumberInv.num > 0 ? "subtract" : "add"
 
-      invMatrix[i] = rowOperation(invMatrix, operation, i, scaledInvRow)
-      idMatrix[i] = rowOperation(idMatrix, operation, i, scaledIdRow)
+        invMatrix[i] = rowOperation(invMatrix, operation, i, scaledInvRow)
+        idMatrix[i] = rowOperation(idMatrix, operation, i, scaledIdRow)
 
-      const sign = operation === "add" ? "+" : "-"
-      let [numerator, denumerator] = [
-        reductionNumberInv.num,
-        reductionNumberInv.den.toString(),
-      ]
+        const sign = operation === "add" ? "+" : "-"
+        const numerator = Math.abs(reductionNumberInv.num)
+        const denumerator =
+          reductionNumberInv.den > 1 ? `/${reductionNumberInv.den}` : ""
 
-      denumerator = reductionNumberInv.den > 1 ? "/" + denumerator : ""
-
-      Steps.push({
-        invMatrix: matrixElementToString(invMatrix),
-        idMatrix: matrixElementToString(idMatrix),
-        rowOps: `R${i + 1}rarrR${i + 1}${sign}${numerator}${denumerator}*R${
-          currentRow + 1
-        }`,
-      })
+        Steps.push({
+          invMatrix: matrixElementToString(invMatrix),
+          idMatrix: matrixElementToString(idMatrix),
+          rowOps: `R${i + 1} rarr R${
+            i + 1
+          } ${sign} ${numerator}${denumerator} * R${currentRow + 1}`,
+        })
+      }
     }
-    return [{ invMatrix, idMatrix }, Steps, invertible]
   }
   return [matrices, Steps, invertible]
 }

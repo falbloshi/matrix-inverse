@@ -1,11 +1,4 @@
-import {
-  Rational,
-  Matrix,
-  Matrices,
-  Direction,
-  Snapshot,
-  Operation,
-} from "../types"
+import { Rational, Matrix, Matrices, Snapshot, Operation } from "../types"
 import elementaryOperations from "./elementaryOperations"
 import matrixElementToString from "../matrixElementsToString"
 
@@ -177,12 +170,14 @@ const reduceMatrix = (
         const denumerator =
           reductionNumberInv.den > 1 ? `/${reductionNumberInv.den}` : ""
 
+        const finalString = numerator > 1 ? `${numerator}${denumerator} *` : ""
+
         Steps.push({
           invMatrix: matrixElementToString(invMatrix),
           idMatrix: matrixElementToString(idMatrix),
-          rowOps: `R${i + 1} rarr R${
-            i + 1
-          } ${sign} ${numerator}${denumerator} * R${currentRow + 1}`,
+          rowOps: `R${i + 1} rarr R${i + 1} ${sign} ${finalString} R${
+            currentRow + 1
+          }`,
         })
       }
     }

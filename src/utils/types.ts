@@ -15,6 +15,12 @@ export interface Pivot {
   col: number
 }
 
+export interface Snapshot {
+  idMatrix: string[]
+  invMatrix: string[]
+  rowOps: string | null
+}
+
 export type Operation = "add" | "subtract" | "multiply" | "divide"
 
 // a list of list(aka rows) - with each row containing Rational number

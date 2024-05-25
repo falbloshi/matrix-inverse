@@ -16,7 +16,8 @@ Now head to the next pivot aka (r2c2] ) do the steps above.
 
 import createMatrixElement from "./createMatrixElement"
 import stringToMatrixElements from "../stringToMatrixElements"
-import { Rational, Matrix, Matrices } from "../types"
+import matrixElementToString from "../matrixElementsToString"
+import { Rational, Matrix, Matrices, Snapshot } from "../types"
 import reduceMatrix from "./rowOperations"
 
 function createIdentityMatrix(size: number) {
@@ -47,82 +48,73 @@ function createMatrixFromInput(list: Rational[]) {
   return matrix
 }
 
-const gaussElimination = (inputMatrices: Matrices): Matrix | any => {
-  const Steps: String[] = []
+const gaussElimination = (inputMatrices: Matrices): Snapshot[] | boolean => {
+  let Steps: Snapshot[] = [
+    {
+      invMatrix: matrixElementToString(inputMatrices.invMatrix),
+      idMatrix: matrixElementToString(inputMatrices.idMatrix),
+      rowOps: null,
+    },
+  ]
 
   let updatedMatrices: Matrices = inputMatrices
 
-  let invertible = true
-
-  console.log(inputMatrices.invMatrix, inputMatrices.idMatrix)
+  let invertible: boolean = true
 
   for (let rowCol = 0; rowCol < updatedMatrices.invMatrix.length; rowCol++) {
-    if (rowCol === 0) {
-      console.log("start")
-
-      updatedMatrices = reduceMatrix(
+    if (rowCol === 0 && invertible) {
+      ;[updatedMatrices, Steps, invertible] = reduceMatrix(
         rowCol,
         rowCol,
         updatedMatrices,
         "top-down",
+        Steps,
         invertible
       )
-      console.log(updatedMatrices.invMatrix, updatedMatrices.idMatrix)
-    } else if (rowCol === updatedMatrices.invMatrix.length - 1) {
-      console.log("end")
-      updatedMatrices = reduceMatrix(
+    } else if (rowCol === updatedMatrices.invMatrix.length - 1 && invertible) {
+      ;[updatedMatrices, Steps, invertible] = reduceMatrix(
         rowCol,
         rowCol,
         updatedMatrices,
         "bottom-up",
+        Steps,
         invertible
       )
-      console.log(updatedMatrices.invMatrix, updatedMatrices.idMatrix)
-    } else if (rowCol > 0 && rowCol < inputMatrices.invMatrix.length - 1) {
+    } else if (
+      rowCol > 0 &&
+      rowCol < inputMatrices.invMatrix.length - 1 &&
+      invertible
+    ) {
       console.log("middle")
-
-      updatedMatrices = reduceMatrix(
+      ;[updatedMatrices, Steps, invertible] = reduceMatrix(
         rowCol,
         rowCol,
         updatedMatrices,
         "top-down",
+        Steps,
         invertible
       )
-      updatedMatrices = reduceMatrix(
+      ;[updatedMatrices, Steps] = reduceMatrix(
         rowCol,
         rowCol,
         updatedMatrices,
         "bottom-up",
+        Steps,
         invertible
       )
     }
   }
 
-  // console.log(
-  //   "after full row operations",
-  //   updatedMatrices.invMatrix,
-  //   updatedMatrices.idMatrix
-  // )
-
-  //testing area
-  // console.log(inputMatrices.invMatrix, inputMatrices.idMatrix)
-
-  // let result = reduceMatrix(0, 0, inputMatrices, "top-down", true)
-  // if (result) {
-  //   console.log(
-  //     "result after first topdown reduction from first pivot",
-  //     result.invMatrix,
-  //     result.idMatrix
-  //   )
-  // }
-
-  return null
+  if (!invertible) return invertible
+  return Steps
 }
 
-const ls: string[] = ["3", "2", "5", "4"]
+const ls: string[] = ["0", "2", "1", "4"]
 const numls: Rational[] = stringToMatrixElements(ls)
 
 const identityMatrix = createIdentityMatrix(numls.length)
 const inputMatrix = createMatrixFromInput(numls)
 
-gaussElimination({ invMatrix: inputMatrix, idMatrix: identityMatrix })
+console.log(
+  gaussElimination({ invMatrix: inputMatrix, idMatrix: identityMatrix })
+)

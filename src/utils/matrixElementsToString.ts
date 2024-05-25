@@ -9,3 +9,5 @@ const matrixElementToString = (matrix: Matrix): string[] => {
 
   return translatedMatrix.reduce((acc, row) => acc.concat(row), [])
 }
+
+export default matrixElementToString

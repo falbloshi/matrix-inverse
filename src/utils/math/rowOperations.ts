@@ -52,13 +52,13 @@ const normalizePivot = (
     elementaryOperations("divide", item, invPivot)
   )
 
-  const numForShow = invPivot.num > 1 ? "/" + invPivot.num : ""
+  const num = Math.abs(invPivot.num) > 1 ? "/" + invPivot.num : ""
+  const den = invPivot.num < 0 ? -invPivot.den : invPivot.den
+
   Steps.push({
     invMatrix: matrixElementToString(invMatrix),
     idMatrix: matrixElementToString(idMatrix),
-    rowOps: `R${currentRow + 1} rarr ${invPivot.den}${numForShow} * R${
-      currentRow + 1
-    }`,
+    rowOps: `R${currentRow + 1} rarr ${den}${num} * R${currentRow + 1}`,
   })
 
   return [invMatrix, idMatrix, Steps]

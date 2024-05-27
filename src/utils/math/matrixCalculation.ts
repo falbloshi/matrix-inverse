@@ -14,13 +14,17 @@ Now head to the next pivot aka (r2c2] ) do the steps above.
 
 */
 
-import createMatrixElement from "./createMatrixElement"
 import stringToMatrixElements from "../stringToMatrixElements"
 import matrixElementToString from "../matrixElementsToString"
 import { Rational, Matrix, Matrices, Snapshot } from "../types"
 import reduceMatrix from "./rowOperations"
 
-function createIdentityMatrix(size: number) {
+const createMatrixElement = (num: number, den: number = 1): Rational => ({
+  num,
+  den,
+})
+
+const createIdentityMatrix = (size: number) => {
   const SIZE = Math.sqrt(size)
   const matrix: Matrix = Array.from({ length: SIZE }, () =>
     Array(SIZE).fill(createMatrixElement(0))
@@ -32,19 +36,11 @@ function createIdentityMatrix(size: number) {
   return matrix
 }
 
-function createMatrixFromInput(list: Rational[]) {
+const createMatrixFromInput = (list: Rational[]) => {
   const SIZE = Math.sqrt(list.length)
-  const matrix: Matrix = Array.from({ length: SIZE }, () =>
-    Array(SIZE).fill(createMatrixElement(0))
+  const matrix: Matrix = Array.from({ length: SIZE }, (_, i) =>
+    Array.from({ length: SIZE }, (_, j) => list[i * SIZE + j])
   )
-
-  let counter = 0
-  for (let i = 0; i < SIZE; i++) {
-    for (let j = 0; j < SIZE; j++) {
-      matrix[i][j] = list[counter]
-      counter++
-    }
-  }
   return matrix
 }
 
@@ -92,14 +88,14 @@ const inputMatrix = createMatrixFromInput(numls)
 //     idMatrix: createIdentityMatrix(4),
 //   })
 // )
-// console.log(
-//   gaussElimination({
-//     invMatrix: createMatrixFromInput(
-//       stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
-//     ),
-//     idMatrix: createIdentityMatrix(4),
-//   })
-// )
+console.log(
+  gaussElimination({
+    invMatrix: createMatrixFromInput(
+      stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
+    ),
+    idMatrix: createIdentityMatrix(4),
+  })
+)
 // console.log(
 //   gaussElimination({
 //     invMatrix: createMatrixFromInput(
@@ -156,31 +152,31 @@ const inputMatrix = createMatrixFromInput(numls)
 //   })
 // )
 
-console.log(
-  gaussElimination({
-    invMatrix: createMatrixFromInput(
-      stringToMatrixElements([
-        "2",
-        "-1",
-        "0",
-        "3",
-        "1",
-        "2",
-        "4",
-        "-2",
-        "3",
-        "-2",
-        "1",
-        "0",
-        "4",
-        "1",
-        "-3",
-        "2",
-      ])
-    ),
-    idMatrix: createIdentityMatrix(16),
-  })
-)
+// console.log(
+//   gaussElimination({
+//     invMatrix: createMatrixFromInput(
+//       stringToMatrixElements([
+//         "2",
+//         "-1",
+//         "0",
+//         "3",
+//         "1",
+//         "2",
+//         "4",
+//         "-2",
+//         "3",
+//         "-2",
+//         "1",
+//         "0",
+//         "4",
+//         "1",
+//         "-3",
+//         "2",
+//       ])
+//     ),
+//     idMatrix: createIdentityMatrix(16),
+//   })
+// )
 // console.log(
 //   gaussElimination({
 //     invMatrix: createMatrixFromInput(

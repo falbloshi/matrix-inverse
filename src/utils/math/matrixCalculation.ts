@@ -18,6 +18,7 @@ import stringToMatrixElements from "../stringToMatrixElements"
 import matrixElementToString from "../matrixElementsToString"
 import { Rational, Matrix, Matrices, Snapshot } from "../types"
 import reduceMatrix from "./rowOperations"
+import elementaryOperations from "./elementaryOperations"
 
 const createMatrixElement = (num: number, den: number = 1): Rational => ({
   num,
@@ -44,8 +45,10 @@ const createMatrixFromInput = (list: Rational[]) => {
   return matrix
 }
 
-const gaussElimination = (inputMatrices: Matrices): Snapshot[] | boolean => {
-  let Steps: Snapshot[] = [
+export default createMatrixFromInput
+
+const gaussElimination = (inputMatrices: Matrices): Array<any> | boolean => {
+  let Steps: Snapshot[] | { finalResult: string } = [
     {
       invMatrix: matrixElementToString(inputMatrices.invMatrix),
       idMatrix: matrixElementToString(inputMatrices.idMatrix),
@@ -70,7 +73,7 @@ const gaussElimination = (inputMatrices: Matrices): Snapshot[] | boolean => {
   }
 
   if (!invertible) return invertible
-  return Steps
+  return [...Steps, { final: "yes" }]
 }
 
 const ls: string[] = ["1", "2", "3", "4"]
@@ -88,22 +91,30 @@ const inputMatrix = createMatrixFromInput(numls)
 //     idMatrix: createIdentityMatrix(4),
 //   })
 // )
-console.log(
-  gaussElimination({
-    invMatrix: createMatrixFromInput(
-      stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
-    ),
-    idMatrix: createIdentityMatrix(4),
-  })
-)
 // console.log(
 //   gaussElimination({
 //     invMatrix: createMatrixFromInput(
-//       stringToMatrixElements(["2", "-3", "4", "5"])
+//       stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
 //     ),
 //     idMatrix: createIdentityMatrix(4),
 //   })
 // )
+
+// let matrix1 = createMatrixFromInput(
+//   stringToMatrixElements(["-14/3", "4", "40/9", "-8/3"])
+// )
+// let matrix2 = createMatrixFromInput(
+//   stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
+// )
+
+console.log(
+  gaussElimination({
+    invMatrix: createMatrixFromInput(
+      stringToMatrixElements(["2", "-3", "4", "5"])
+    ),
+    idMatrix: createIdentityMatrix(4),
+  })
+)
 
 //3x3
 // console.log(

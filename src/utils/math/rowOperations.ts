@@ -52,7 +52,7 @@ const normalizePivot = (
     elementaryOperations("divide", item, invPivot)
   )
 
-  const num = Math.abs(invPivot.num) > 1 ? "/" + invPivot.num : ""
+  const num = Math.abs(invPivot.num) > 1 ? "/" + -invPivot.num : ""
   const den = invPivot.num < 0 ? -invPivot.den : invPivot.den
 
   Steps.push({

@@ -43,40 +43,25 @@ const elementaryOperations = <T extends Operation>(
   return firstNumber
 }
 
-const addition = (firstNumber: Rational, secondNumber: Rational): Rational => {
-  const first = simplify(firstNumber)
-  const second = simplify(secondNumber)
-
+const addition = (first: Rational, second: Rational): Rational => {
   const num = first.num * second.den + second.num * first.den
   const den = first.den * second.den
 
   return simplify({ num, den })
 }
 
-const subtraction = (firstItem: Rational, secondItem: Rational): Rational => {
-  const first = simplify(firstItem)
-  const second = simplify(secondItem)
-
+const subtraction = (first: Rational, second: Rational): Rational => {
   const num = first.num * second.den - second.num * first.den
   const den = first.den * second.den
 
   return simplify({ num, den })
 }
 
-const multiplication = (
-  firstItem: Rational,
-  secondItem: Rational
-): Rational => {
-  const first = simplify(firstItem)
-  const second = simplify(secondItem)
-
+const multiplication = (first: Rational, second: Rational): Rational => {
   return simplify({ num: first.num * second.num, den: first.den * second.den })
 }
 
-const division = (firstItem: Rational, secondItem: Rational): Rational => {
-  const first = simplify(firstItem)
-  const second = simplify(secondItem)
-
+const division = (first: Rational, second: Rational): Rational => {
   let num = first.num * second.den
   let den = first.den * second.num
 

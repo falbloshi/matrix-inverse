@@ -106,14 +106,14 @@ const inputMatrix = createMatrixFromInput(numls)
 //   stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
 // )
 
-// console.log(
-//   gaussElimination({
-//     invMatrix: createMatrixFromInput(
-//       stringToMatrixElements(["2", "-3", "4", "5"])
-//     ),
-//     idMatrix: createIdentityMatrix(4),
-//   })
-// )
+console.log(
+  gaussElimination({
+    invMatrix: createMatrixFromInput(
+      stringToMatrixElements(["2", "-3", "4", "5"])
+    ),
+    idMatrix: createIdentityMatrix(4),
+  })
+)
 
 //3x3
 // console.log(

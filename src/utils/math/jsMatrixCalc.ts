@@ -30,10 +30,18 @@ transposedMatrix = transpose(matrix2)
 
 //requires a transposed second matrix
 const matrixMultiplication = (matrixA: Matrix, matrixB: Matrix) => {
-
-  return matrixA.map((rowA) => matrixB.map((colB, colIndex) => rowA.map((valueA, index) => 
-    elementaryOperations("multiply", valueA, colB[index].reduce((sum, product) => elementaryOperations("add", sum, product), {num:0, den:1}))))
-  
+  return matrixA.map((rowA) => {
+    return matrixB.map((colB) => {
+      return rowA
+        .map((valueA, index) =>
+          elementaryOperations("multiply", valueA, colB[index])
+        )
+        .reduce((sum, product) => elementaryOperations("add", sum, product), {
+          num: 0,
+          den: 1,
+        })
+    })
+  })
 }
 
 console.log(matrixMultiplication(matrix1, transposedMatrix))

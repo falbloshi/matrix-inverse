@@ -18,6 +18,7 @@ import stringToMatrixElements from "../stringToMatrixElements"
 import matrixElementToString from "../matrixElementsToString"
 import { Rational, Matrix, Matrices, Snapshot } from "../types"
 import reduceMatrix from "./rowOperations"
+import matrixMultiplication from "./matrixMultiplication"
 
 const createMatrixElement = (num: number, den: number = 1): Rational => ({
   num,
@@ -36,6 +37,9 @@ const createIdentityMatrix = (size: number) => {
   return matrix
 }
 
+const deepCopyMatrix = (matrix: Matrix): Matrix =>
+  matrix.map((row) => row.map((element) => ({ ...element })))
+
 const createMatrixFromInput = (list: Rational[]) => {
   const SIZE = Math.sqrt(list.length)
   const matrix: Matrix = Array.from({ length: SIZE }, (_, i) =>
@@ -44,18 +48,25 @@ const createMatrixFromInput = (list: Rational[]) => {
   return matrix
 }
 
-export default createMatrixFromInput
+const gaussElimination = (inputMatrix: string[]): Array<any> | null => {
+  const originalMatrix = createMatrixFromInput(
+    stringToMatrixElements(inputMatrix)
+  )
+  const invMatrix = deepCopyMatrix(originalMatrix)
+  const idMatrix = createIdentityMatrix(inputMatrix.length)
 
-const gaussElimination = (inputMatrices: Matrices): Array<any> | boolean => {
-  let Steps: Snapshot[] | { finalResult: string } = [
+  let Steps: Snapshot[] = [
     {
-      invMatrix: matrixElementToString(inputMatrices.invMatrix),
-      idMatrix: matrixElementToString(inputMatrices.idMatrix),
+      invMatrix: matrixElementToString(invMatrix),
+      idMatrix: matrixElementToString(idMatrix),
       rowOps: null,
     },
   ]
 
-  let updatedMatrices: Matrices = inputMatrices
+  let updatedMatrices: Matrices = {
+    invMatrix: invMatrix,
+    idMatrix: idMatrix,
+  }
 
   let invertible: boolean = true
 
@@ -71,16 +82,21 @@ const gaussElimination = (inputMatrices: Matrices): Array<any> | boolean => {
     }
   }
 
-  if (!invertible) return invertible
-  return [...Steps, { final: "yes" }]
+  const matrixMultiplicationResult = matrixElementToString(
+    matrixMultiplication(originalMatrix, idMatrix)
+  )
+
+  if (!invertible) return null
+  return [
+    ...Steps,
+    {
+      originalMatrix: matrixElementToString(originalMatrix),
+      updatedIdMatrix: matrixElementToString(idMatrix),
+      result: matrixMultiplicationResult,
+      rowOps: "A * A^-1 = I",
+    },
+  ]
 }
-
-const ls: string[] = ["1", "2", "3", "4"]
-const numls: Rational[] = stringToMatrixElements(ls)
-
-const identityMatrix = createIdentityMatrix(numls.length)
-const inputMatrix = createMatrixFromInput(numls)
-
 //2x2
 // console.log(
 //   gaussElimination({
@@ -106,14 +122,7 @@ const inputMatrix = createMatrixFromInput(numls)
 //   stringToMatrixElements(["1/2", "3/4", "5/6", "7/8"])
 // )
 
-// console.log(
-//   gaussElimination({
-//     invMatrix: createMatrixFromInput(
-//       stringToMatrixElements(["2", "-3", "4", "5"])
-//     ),
-//     idMatrix: createIdentityMatrix(4),
-//   })
-// )
+// console.log(gaussElimination(["2", "-3", "4", "5"]))
 
 //3x3
 // console.log(
@@ -125,24 +134,20 @@ const inputMatrix = createMatrixFromInput(numls)
 //     idMatrix: createIdentityMatrix(9),
 //   })
 // )
-// console.log(
-//   gaussElimination({
-//     invMatrix: createMatrixFromInput(
-//       stringToMatrixElements([
-//         "1/2",
-//         "1/3",
-//         "1/4",
-//         "1/5",
-//         "1/6",
-//         "1/7",
-//         "1/8",
-//         "1/9",
-//         "1/10",
-//       ])
-//     ),
-//     idMatrix: createIdentityMatrix(9),
-//   })
-// )
+console.log(
+  gaussElimination([
+    "1/2",
+    "1/3",
+    "1/4",
+    "1/5",
+    "1/6",
+    "1/7",
+    "1/8",
+    "1/9",
+    "1/10",
+  ])
+)
+
 // console.log(
 //   gaussElimination({
 //     invMatrix: createMatrixFromInput(

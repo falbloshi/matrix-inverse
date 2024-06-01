@@ -1,4 +1,3 @@
-import { MathJax } from "better-react-mathjax"
 import { useEffect, useRef, useState } from "react"
 import MatrixDisplay from "../utils/matrixDisplay"
 
@@ -11,7 +10,6 @@ interface MatrixInputProps {
 const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) => {
   const numRows = value
 
-  // const [inputs, setInputs] = useState<String[]>([])
   const [display, setDisplay] = useState<String>("")
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
@@ -37,10 +35,11 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) =
       const index = i * numRows + j
       row.push(
         <input
-          key={`${i}-${j}`}
+          key={`${i}-${j}-${numRows}`}
           type="text"
           placeholder={`R${i + 1} C${j + 1}`}
           ref={el => (inputRefs.current[index] = el)}
+          value={inputs[index]}
           onChange={handleInputChange(index)}
           className="font-pt-serif text-3xl border-b border-b-black p-2 focus:outline-none focus:bg-green-100 placeholder:font-sans placeholder:text-sm max-w-36 placeholder:text-neutral-400"
         />

@@ -62,7 +62,6 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) =
     if (inputs.every(item => item.trim() != "")) {
       const values: String = MatrixDisplay(inputs.length, inputs)
       setDisplay(values)
-      console.log(values)
     }
   }, [inputs])
 

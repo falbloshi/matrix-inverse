@@ -4,14 +4,22 @@ import InputPage from "./components/inputPage"
 import { useState } from "react"
 import ResultPage from "./components/resultPage"
 
+// const config = {
+//   loader: { load: ["input/asciimath"] },
+//   asciimath: {
+//     displaystyle: true,
+//     delimiters: [
+//       ["$", "$"],
+//       ["`", "`"],
+//     ],
+//   },
+// }
+
 const config = {
-  loader: { load: ["input/asciimath"] },
-  asciimath: {
-    displaystyle: true,
-    delimiters: [
-      ["$", "$"],
-      ["`", "`"],
-    ],
+  loader: { load: ["input/tex"] },
+  tex: {
+    inlineMath: [["$", "$"], ["\\(", "\\)"]],
+    displayMath: [["$$", "$$"], ["\\[", "\\]"]]
   },
 }
 

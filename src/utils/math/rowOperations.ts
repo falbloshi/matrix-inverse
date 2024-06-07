@@ -52,13 +52,15 @@ const normalizePivot = (
     elementaryOperations("divide", item, invPivot)
   )
 
-  const num = Math.abs(invPivot.num) > 1 ? "/" + -invPivot.num : ""
-  const den = invPivot.num < 0 ? -invPivot.den : invPivot.den
+  //some weird output when using 2, 1, 4, 3
+
+  const num = invPivot.den < 0 ? -invPivot.den : invPivot.den
+  const den = Math.abs(invPivot.num) > 1 ? "/" + Math.abs(invPivot.num) : ""
 
   Steps.push({
     invMatrix: matrixElementToString(invMatrix),
     idMatrix: matrixElementToString(idMatrix),
-    rowOps: `R${currentRow + 1} rarr ${den}${num} * R${currentRow + 1}`,
+    rowOps: `R${currentRow + 1} rarr ${num}${den} * R${currentRow + 1}`,
   })
 
   return [invMatrix, idMatrix, Steps]

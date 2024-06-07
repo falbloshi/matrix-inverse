@@ -1,23 +1,46 @@
-const MatrixDisplay = (length: number, input: String[]) => {
+// const MatrixDisplay = (length: number, input: String[]) => {
+//   const size = Math.sqrt(length)
+//   let result = "`["
+//   for (let i = 0; i < size; i++) {
+//     let row = "["
+//     for (let j = 0; j < size; j++) {
+//       let element = input[i * size + j]
+//       row += element
+//       if (j < size - 1) {
+//         row += ","
+//       }
+//     }
+//     row += "]"
+//     if (i < size - 1) {
+//       result += row + ","
+//     } else {
+//       result += row
+//     }
+//   }
+//   result += "]`"
+//   return result
+// }
+
+import reduceRationalForDisplay from "./reduceRationalForDisplay"
+
+const MatrixDisplay = (length: number, input: string[]) => {
   const size = Math.sqrt(length)
-  let result = "`["
+  let result = "\\begin{bmatrix}\n"
   for (let i = 0; i < size; i++) {
-    let row = "["
+    let row = ""
     for (let j = 0; j < size; j++) {
-      let element = input[i * size + j]
+      let element = reduceRationalForDisplay(input[i * size + j])
       row += element
       if (j < size - 1) {
-        row += ","
+        row += " & "
       }
     }
-    row += "]"
     if (i < size - 1) {
-      result += row + ","
+      result += row + "\\\\\n"
     } else {
-      result += row
+      result += row + "\n\\end{bmatrix}"
     }
   }
-  result += "]`"
   return result
 }
 

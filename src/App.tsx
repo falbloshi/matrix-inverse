@@ -27,13 +27,14 @@ export default function Home() {
 
   const [value, setValue] = useState<number>(2)
   const [inputs, setInputs] = useState<string[]>([])
+  const [display, setDisplay] = useState<string>("pending")
 
   return (
     <MathJaxContext config={config}>
       <main className="mx-16">
         <Navbar />
-        <InputPage value={value} setValue={setValue} inputs={inputs} setInputs={setInputs} />
-        <ResultPage inputs={inputs} />
+        <InputPage value={value} setValue={setValue} inputs={inputs} setInputs={setInputs} display={display} setDisplay={setDisplay} />
+        <ResultPage inputs={inputs} display={display} />
       </main>
     </MathJaxContext>
   )

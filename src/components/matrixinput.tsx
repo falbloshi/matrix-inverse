@@ -1,16 +1,18 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import matrixDisplay from "../utils/matrixDisplay"
+import { MathJax } from "better-react-mathjax"
 
 interface MatrixInputProps {
   value: number
   inputs: string[]
+  display: string
   setInputs: (inputs: string[]) => void
+  setDisplay: (display: string) => void
 }
 
-const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) => {
+const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs, display, setDisplay }) => {
   const numRows = value
 
-  const [display, setDisplay] = useState<String>("")
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const handleInputChange =
@@ -27,6 +29,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) =
     setInputs(newInputs)
     inputRefs.current = newRefs
   }, [numRows])
+
 
   const grid = []
   for (let i = 0;i < numRows;i++) {
@@ -54,23 +57,22 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) =
     )
   }
 
-  const displayValues = inputs.map((value, index) => (
-    <p key={index}>{`Value ${index + 1}: ${value}`}</p>
-  ))
-
   useEffect(() => {
     if (inputs.every(item => item.trim() != "")) {
-      const values: String = matrixDisplay(inputs)
+      const values: string = matrixDisplay(inputs)
       setDisplay(values)
+    }
+    else {
+      setDisplay("pending")
     }
   }, [inputs])
 
-  console.log(grid)
   return (
     <>
       <div className={`grid grid-cols-[${value}] gap-4`}>{grid}</div>
-      <div>{displayValues}</div>
+      <div className="gap-x-8"><MathJax>{display}</MathJax></div>
     </>
   )
 }
+
 export default MatrixInput

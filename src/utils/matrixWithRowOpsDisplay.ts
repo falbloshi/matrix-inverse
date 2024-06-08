@@ -37,7 +37,8 @@ const myArray = [
 import augmentedMatrixDisplay from "./augmentedMatrixDisplay"
 import resultMatrixDisplay from "./resultMatrixDisplay"
 
-const matrixWithRowOpsDisplay = (matrix: Array<any>) => {
+const matrixWithRowOpsDisplay = (matrix: Array<any>): Array<any> | null => {
+  if (!matrix) return null
   const matrixOps: Snapshot[] = matrix.slice(0, -1)
   const {
     originalMatrix,
@@ -59,7 +60,5 @@ const matrixWithRowOpsDisplay = (matrix: Array<any>) => {
 
   return augmentedResult.concat(finalResult)
 }
-
-console.log(matrixWithRowOpsDisplay(myArray)[3])
 
 export default matrixWithRowOpsDisplay

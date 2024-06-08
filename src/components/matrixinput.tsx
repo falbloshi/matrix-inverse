@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import MatrixDisplay from "../utils/matrixDisplay"
+import matrixDisplay from "../utils/matrixDisplay"
 
 interface MatrixInputProps {
   value: number
@@ -60,7 +60,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs }) =
 
   useEffect(() => {
     if (inputs.every(item => item.trim() != "")) {
-      const values: String = MatrixDisplay(inputs.length, inputs)
+      const values: String = matrixDisplay(inputs)
       setDisplay(values)
     }
   }, [inputs])

@@ -52,15 +52,17 @@ const normalizePivot = (
     elementaryOperations("divide", item, invPivot)
   )
 
-  //some weird output when using 2, 1, 4, 3
-
   const num = invPivot.den < 0 ? -invPivot.den : invPivot.den
-  const den = Math.abs(invPivot.num) > 1 ? "/" + Math.abs(invPivot.num) : ""
+  const den = Math.abs(invPivot.num) > 1 ? Math.abs(invPivot.num) : ""
+
+  const finalString = !den ? `${num}` : `\\frac{${num}}{${den}}`
 
   Steps.push({
     invMatrix: matrixElementToString(invMatrix),
     idMatrix: matrixElementToString(idMatrix),
-    rowOps: `R${currentRow + 1} rarr ${num}${den} * R${currentRow + 1}`,
+    rowOps: `R${currentRow + 1} \\longrightarrow ${finalString} \\cdot R${
+      currentRow + 1
+    }`,
   })
 
   return [invMatrix, idMatrix, Steps]
@@ -85,7 +87,7 @@ const rowSwap = (
       Steps.push({
         invMatrix: matrixElementToString(invMatrix),
         idMatrix: matrixElementToString(idMatrix),
-        rowOps: `R${currentRow + 1} harr R${i + 1}`,
+        rowOps: `R${currentRow + 1} \\longleftrightarrow R${i + 1}`,
       })
       return [{ invMatrix, idMatrix }, Steps]
     }
@@ -170,16 +172,18 @@ const reduceMatrix = (
         const sign = operation === "add" ? "+" : "-"
         const numerator = Math.abs(reductionNumberInv.num)
         const denumerator =
-          reductionNumberInv.den > 1 ? `/${reductionNumberInv.den}` : ""
+          reductionNumberInv.den > 1 ? `${reductionNumberInv.den}` : ""
 
-        const finalString = numerator > 1 ? `${numerator}${denumerator} *` : ""
+        const finalString = !denumerator
+          ? `${numerator} \\cdot`
+          : `\\frac{${numerator}}{${denumerator}} \\cdot`
 
         Steps.push({
           invMatrix: matrixElementToString(invMatrix),
           idMatrix: matrixElementToString(idMatrix),
-          rowOps: `R${i + 1} rarr R${i + 1} ${sign} ${finalString} R${
-            currentRow + 1
-          }`,
+          rowOps: `R${i + 1} \\longrightarrow R${
+            i + 1
+          } ${sign} ${finalString} R${currentRow + 1}`,
         })
       }
     }

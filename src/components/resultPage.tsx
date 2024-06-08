@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import MatrixDisplay from "../utils/matrixDisplay"
+import matrixDisplay from "../utils/matrixDisplay"
 import { MathJax } from "better-react-mathjax"
 import gaussElimination from "../utils/math/gaussElimination"
 
@@ -14,7 +14,7 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs }) => {
 
   useEffect(() => {
     if (inputs.every(item => item.trim() != "")) {
-      const values: string = MatrixDisplay(inputs.length, inputs)
+      const values: string = matrixDisplay(inputs)
       setDisplay(values)
     }
     else {
@@ -31,6 +31,7 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs }) => {
       setResult(null)
     }
   }, [display])
+
 
   return (
     <div>

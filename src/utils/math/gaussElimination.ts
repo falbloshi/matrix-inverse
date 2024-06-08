@@ -110,7 +110,7 @@ const gaussElimination = (inputMatrix: string[]): Array<any> | null => {
       originalMatrix: matrixElementToString(originalMatrix),
       updatedIdMatrix: matrixElementToString(idMatrix),
       result: matrixMultiplicationResult,
-      rowOps: "A * A^-1 = I",
+      rowOps: "A \\cdot A^{-1} = I",
     },
   ]
 }

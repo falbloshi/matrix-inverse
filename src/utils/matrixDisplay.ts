@@ -1,4 +1,4 @@
-import reduceRationalForDisplay from "./reduceRationalForDisplay"
+import reduceRationalForDisplays from "./reduceRationalForDisplays"
 
 const matrixDisplay = (input: string[]) => {
   const size = Math.sqrt(input.length)
@@ -6,7 +6,7 @@ const matrixDisplay = (input: string[]) => {
   for (let i = 0; i < size; i++) {
     let row = ""
     for (let j = 0; j < size; j++) {
-      let element = reduceRationalForDisplay(input[i * size + j])
+      let element = reduceRationalForDisplays(input[i * size + j])
       row += element
       if (j < size - 1) {
         row += " & "

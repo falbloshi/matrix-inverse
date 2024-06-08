@@ -52,7 +52,7 @@ const normalizePivot = (
     elementaryOperations("divide", item, invPivot)
   )
 
-  const num = invPivot.den < 0 ? -invPivot.den : invPivot.den
+  const num = invPivot.num < 0 ? -invPivot.den : invPivot.den
   const den = Math.abs(invPivot.num) > 1 ? Math.abs(invPivot.num) : ""
 
   const finalString = !den ? `${num}` : `\\frac{${num}}{${den}}`
@@ -60,7 +60,7 @@ const normalizePivot = (
   Steps.push({
     invMatrix: matrixElementToString(invMatrix),
     idMatrix: matrixElementToString(idMatrix),
-    rowOps: `R${currentRow + 1} \\longrightarrow ${finalString} \\cdot R${
+    rowOps: `R_${currentRow + 1} \\longrightarrow ${finalString} \\cdot R_${
       currentRow + 1
     }`,
   })
@@ -87,7 +87,7 @@ const rowSwap = (
       Steps.push({
         invMatrix: matrixElementToString(invMatrix),
         idMatrix: matrixElementToString(idMatrix),
-        rowOps: `R${currentRow + 1} \\longleftrightarrow R${i + 1}`,
+        rowOps: `R_${currentRow + 1} \\longleftrightarrow R_${i + 1}`,
       })
       return [{ invMatrix, idMatrix }, Steps]
     }
@@ -181,9 +181,9 @@ const reduceMatrix = (
         Steps.push({
           invMatrix: matrixElementToString(invMatrix),
           idMatrix: matrixElementToString(idMatrix),
-          rowOps: `R${i + 1} \\longrightarrow R${
+          rowOps: `R_${i + 1} \\longrightarrow R_${
             i + 1
-          } ${sign} ${finalString} R${currentRow + 1}`,
+          } ${sign} ${finalString} R_${currentRow + 1}`,
         })
       }
     }

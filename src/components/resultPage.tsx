@@ -32,11 +32,22 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs }) => {
     }
   }, [display])
 
+  const someResult = `\\begin{bmatrix}
+  \\begin{array}{cc|cc}
+  1 & \\frac{1}{2} & \\frac{1}{2} & 0\\\\
+  4 & -3 & 0 & 1
+  \\end{array}
+  \\end{bmatrix}`
+
+  const rowOps = `R_1 \\longrightarrow \\frac{1}{2} \\cdot R_1`;
+
+  const combinedResult = `${someResult} \\qquad ${rowOps}`
 
   return (
     <div>
       <div>{inputs}</div>
-      <MathJax>{display}</MathJax>
+      <MathJax>{`$$${someResult}$$`}</MathJax>
+      <MathJax>{`$$${combinedResult}$$`}</MathJax>
       <div>{result ? JSON.stringify(result) : ""}</div>
     </div>
   )

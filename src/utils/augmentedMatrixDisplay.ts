@@ -1,4 +1,4 @@
-import reduceRationalForDisplay from "./reduceRationalForDisplay"
+import reduceRationalForDisplays from "./reduceRationalForDisplays"
 
 const augmentedMatrixDisplay = (
   invMatrix: string[],
@@ -15,8 +15,8 @@ const augmentedMatrixDisplay = (
     let colIndex = 0
     for (let j = 0; j < size * 2; j++) {
       if (colIndex > size - 1) colIndex = 0
-      const eleOfA = reduceRationalForDisplay(invMatrix[i * size + colIndex])
-      const eleOfId = reduceRationalForDisplay(idMatrix[i * size + colIndex])
+      const eleOfA = reduceRationalForDisplays(invMatrix[i * size + colIndex])
+      const eleOfId = reduceRationalForDisplays(idMatrix[i * size + colIndex])
       colIndex += 1
       rowElement += j < size ? eleOfA : eleOfId
       if (j < size * 2 - 1) {
@@ -29,7 +29,7 @@ const augmentedMatrixDisplay = (
         ? rowElement + "\\\\\n"
         : rowElement + "\n\\end{array}\n\\end{bmatrix}"
   }
-  if (rowOps) result += rowOps
+  if (rowOps) result += ` \\qquad ${rowOps}`
   return result
 }
 

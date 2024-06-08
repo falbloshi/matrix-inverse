@@ -9,22 +9,22 @@ const myArray = [
   {
     invMatrix: ["1", "1/2", "4", "-3"],
     idMatrix: ["1/2", "0", "0", "1"],
-    rowOps: "R1 \\longrightarrow \\frac{1}{2} \\cdot R1",
+    rowOps: "R_1 \\longrightarrow \\frac{1}{2} \\cdot R_1",
   },
   {
     invMatrix: ["1", "1/2", "0", "-5"],
     idMatrix: ["1/2", "0", "-2", "1"],
-    rowOps: "R2 \\longrightarrow R2 - 4 \\cdot R1",
+    rowOps: "R_2 \\longrightarrow R_2 - 4 \\cdot R_1",
   },
   {
     invMatrix: ["1", "1/2", "0", "1"],
     idMatrix: ["1/2", "0", "2/5", "-1/5"],
-    rowOps: "R2 \\longrightarrow \\frac{1}{5} \\cdot R2",
+    rowOps: "R_2 \\longrightarrow \\frac{-1}{5} \\cdot R_2",
   },
   {
     invMatrix: ["1", "0", "0", "1"],
     idMatrix: ["3/10", "1/10", "2/5", "-1/5"],
-    rowOps: "R1 \\longrightarrow R1 - \\frac{1}{2} \\cdot R2",
+    rowOps: "R_1 \\longrightarrow R_1 - \\frac{1}{2} \\cdot R_2",
   },
   {
     originalMatrix: ["2", "1", "4", "-3"],
@@ -57,9 +57,9 @@ const matrixWithRowOpsDisplay = (matrix: Array<any>) => {
     rowOp
   )
 
-  return augmentedResult + finalResult
+  return augmentedResult.concat(finalResult)
 }
 
-console.log(matrixWithRowOpsDisplay(myArray))
+console.log(matrixWithRowOpsDisplay(myArray)[3])
 
 export default matrixWithRowOpsDisplay

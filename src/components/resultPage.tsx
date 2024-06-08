@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import matrixDisplay from "../utils/matrixDisplay"
 import { MathJax } from "better-react-mathjax"
 import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
@@ -21,6 +20,8 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs, display }) => {
       setResult(null)
     }
   }, [display])
+
+
 
   return (
     <div>

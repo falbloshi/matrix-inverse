@@ -65,10 +65,7 @@ const division = (first: Rational, second: Rational): Rational => {
   let num = first.num * second.den
   let den = first.den * second.num
 
-  return simplify({
-    num: num,
-    den: den,
-  })
+  return simplify({ num, den})
 }
 
 export default elementaryOperations

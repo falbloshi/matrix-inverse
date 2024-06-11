@@ -94,16 +94,6 @@ const gaussElimination = (inputMatrix: string[]): Array<any> | null => {
 
   if (!invertible) return null
 
-  console.log([
-    ...Steps,
-    {
-      originalMatrix: matrixElementToString(originalMatrix),
-      updatedIdMatrix: matrixElementToString(idMatrix),
-      result: matrixMultiplicationResult,
-      rowOps: "A * A^-1 = I",
-    },
-  ])
-
   return [
     ...Steps,
     {

@@ -15,19 +15,14 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs, display }) => {
   const [currentValue, setCurrentValue] = useState<number>(0)
 
   const nextValue = () => {
-    let length = 0
-    if (result !== null) length = result.length
-    if (isLast === false) {
-      if (currentValue < length - 1) {
-        setCurrentValue(prev => prev += 1)
-      }
-      else {
-        setIsLast(true)
-      }
+    if (!result) return
+
+    setCurrentValue(prev => prev += 1)
+
+    if (currentValue == result.length - 2) {
+      setIsLast(prev => prev = true)
     }
-    else {
-      setCurrentValue(0)
-    }
+    else { if (isLast) setCurrentValue(result.length - 1) }
   }
 
   useEffect(() => {
@@ -40,8 +35,8 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs, display }) => {
   }, [display])
 
 
-
-  console.log(currentValue)
+  if (result !== null) console.log(result.length)
+  console.log(`curr val`, currentValue)
   return (
     <div>
 

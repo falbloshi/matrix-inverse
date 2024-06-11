@@ -20,9 +20,11 @@ const ResultPage: React.FC<ResultPageProps> = ({ inputs, display }) => {
     setCurrentValue(prev => prev += 1)
 
     if (currentValue == result.length - 2) {
-      setIsLast(prev => prev = true)
+      setIsLast(true)
     }
-    else { if (isLast) setCurrentValue(result.length - 1) }
+    else if (isLast) {
+      setCurrentValue(result.length - 1)
+    }
   }
 
   useEffect(() => {

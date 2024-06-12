@@ -27,3 +27,7 @@ export type Operation = "add" | "subtract" | "multiply" | "divide"
 export type Matrix = Rational[][]
 
 export type Direction = "top-down" | "bottom-up"
+
+export type Page = 'heroPage' | 'inputPage' | 'resultPage'
+
+export type PageDirection = 'next' | 'previous'

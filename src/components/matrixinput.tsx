@@ -10,7 +10,13 @@ interface MatrixInputProps {
   setDisplay: (display: string) => void
 }
 
-const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs, display, setDisplay }) => {
+const MatrixInput: React.FC<MatrixInputProps> = ({
+  value,
+  inputs,
+  setInputs,
+  display,
+  setDisplay,
+}) => {
   const numRows = value
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
@@ -30,11 +36,10 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs, dis
     inputRefs.current = newRefs
   }, [numRows])
 
-
   const grid = []
-  for (let i = 0;i < numRows;i++) {
+  for (let i = 0; i < numRows; i++) {
     const row = []
-    for (let j = 0;j < numRows;j++) {
+    for (let j = 0; j < numRows; j++) {
       const index = i * numRows + j
       row.push(
         <input
@@ -61,8 +66,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs, dis
     if (inputs.every(item => item.trim() != "")) {
       const values: string = matrixDisplay(inputs)
       setDisplay(values)
-    }
-    else {
+    } else {
       setDisplay("pending")
     }
   }, [inputs])
@@ -70,7 +74,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({ value, inputs, setInputs, dis
   return (
     <>
       <div className={`grid grid-cols-[${value}] gap-4`}>{grid}</div>
-      <div className="gap-x-8"><MathJax>{display}</MathJax></div>
+      <MathJax>{display}</MathJax>
     </>
   )
 }

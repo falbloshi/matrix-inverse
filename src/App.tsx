@@ -19,12 +19,15 @@ const config = {
       ["\\[", "\\]"],
     ],
   },
+  svg: {
+    scale: 3.0
+  }
 }
 
 export default function Home() {
   const [value, setValue] = useState<number>(2)
   const [inputs, setInputs] = useState<string[]>([])
-  const [display, setDisplay] = useState<string>("pending")
+  const [display, setDisplay] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState<Page>("heroPage")
 
   const handleNavigate = (currentPage: Page, direction: PageDirection) => {

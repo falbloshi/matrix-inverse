@@ -1,13 +1,13 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import matrixDisplay from "../utils/matrixDisplay"
 import { MathJax } from "better-react-mathjax"
 
 interface MatrixInputProps {
   value: number
   inputs: string[]
-  display: string
+  display: string | null
   setInputs: (inputs: string[]) => void
-  setDisplay: (display: string) => void
+  setDisplay: (display: string | null) => void
 }
 
 const MatrixInput: React.FC<MatrixInputProps> = ({
@@ -20,13 +20,26 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   const numRows = value
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const [error, setError] = useState<string>("")
+
+  const regEx = new RegExp("^-?[0-9]+(\/[1-9][0-9]*)?$");
 
   const handleInputChange =
     (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.value
       const newInputs = [...inputs]
-      newInputs[index] = newValue
-      setInputs(newInputs)
+
+      const isRationalOrWhole = regEx.test(newValue)
+      if (isRationalOrWhole) {
+        newInputs[index] = newValue
+        setInputs(newInputs)
+        setError("")
+      }
+      else {
+        newInputs[index] = ""
+        setInputs(newInputs)
+        setError(prev => prev = `wrong entry at R ${Math.floor(index / numRows) + 1} C ${Math.floor(index % numRows) + 1}`)
+      }
     }
 
   useEffect(() => {
@@ -37,9 +50,9 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   }, [numRows])
 
   const grid = []
-  for (let i = 0; i < numRows; i++) {
+  for (let i = 0;i < numRows;i++) {
     const row = []
-    for (let j = 0; j < numRows; j++) {
+    for (let j = 0;j < numRows;j++) {
       const index = i * numRows + j
       row.push(
         <input
@@ -49,7 +62,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
           ref={el => (inputRefs.current[index] = el)}
           value={inputs[index]}
           onChange={handleInputChange(index)}
-          className="font-pt-serif text-3xl border-b border-b-black p-2 focus:outline-none focus:bg-green-100 placeholder:font-sans placeholder:text-sm max-w-36 placeholder:text-neutral-400"
+          className="font-pt-serif text-3xl border-b border-b-black p-2 focus:outline-none focus:bg-teal-100 placeholder:font-sans placeholder:text-sm max-w-36 placeholder:text-neutral-400"
         />
       )
     }
@@ -66,14 +79,16 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
     if (inputs.every(item => item.trim() != "")) {
       const values: string = matrixDisplay(inputs)
       setDisplay(values)
-    } else {
-      setDisplay("pending")
+    }
+    else {
+      setDisplay(null)
     }
   }, [inputs])
 
   return (
     <>
       <div className={`grid grid-cols-[${value}] gap-4`}>{grid}</div>
+      <div className="my-4">{error && <p className="error">{error}</p>}</div>
       <MathJax>{display}</MathJax>
     </>
   )

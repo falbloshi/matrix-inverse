@@ -56,8 +56,6 @@ const gaussElimination = (inputMatrix: string[]): Array<any> | null => {
 
   if (originalMatrix === null) return null
 
-  console.log(originalMatrix)
-
   const invMatrix = deepCopyMatrix(originalMatrix)
   const idMatrix = createIdentityMatrix(inputMatrix.length)
 

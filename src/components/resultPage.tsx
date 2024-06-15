@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { MathJax } from "better-react-mathjax"
 import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
@@ -6,21 +6,21 @@ import { Page, PageDirection } from "../utils/types"
 
 interface ResultPageProps {
   inputs: string[]
-  display: string
+  display: string | null
   currentPage: Page
   navigate: (currentPage: Page, direction: PageDirection) => void
 }
 
 const ResultPage: React.FC<ResultPageProps> = ({
   inputs,
-  display,
   currentPage,
   navigate,
 }) => {
-  const [result, setResult] = useState<string[] | null>([])
+  const [result, setResult] = useState<string[] | null>(null)
   const [isLast, setIsLast] = useState<boolean>(false)
   const [displayResult, setDisplayResult] = useState<JSX.Element[]>([])
   const [currentValue, setCurrentValue] = useState<number>(0)
+  const latestElementRef = useRef<HTMLDivElement | null>(null)
 
   const nextValue = () => {
     if (!result || currentValue >= result.length - 1) return
@@ -35,7 +35,7 @@ const ResultPage: React.FC<ResultPageProps> = ({
   }
 
   useEffect(() => {
-    if (display !== "pending") {
+    if (inputs) {
       setResult(_prevResult =>
         matrixWithRowOpsDisplay(gaussElimination(inputs) as any[])
       )
@@ -45,18 +45,26 @@ const ResultPage: React.FC<ResultPageProps> = ({
     } else {
       setResult(null)
     }
-  }, [display, inputs])
+  }, [inputs])
 
   useEffect(() => {
     if (result !== null) {
-      setDisplayResult(prev => [
-        ...prev,
-        <div key={currentValue}>
-          <MathJax>{`$$${result[currentValue]}$$`}</MathJax>
-        </div>,
-      ])
+      // const currentSlice = result.slice(0, currentValue + 1)
+      setDisplayResult(prev =>
+        prev = result.map((element, index) =>
+          <div key={index} ref={index === currentValue ? latestElementRef : null}>
+            {index > 0 && <h3 className="text-3xl">{index}. </h3>}
+            <MathJax>{`$$${element}$$`}</MathJax>
+          </div>)
+      )
     }
   }, [currentValue, result])
+
+  useEffect(() => {
+    if (latestElementRef.current) {
+      latestElementRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentValue, displayResult]);
 
   return (
     <div>
@@ -64,9 +72,8 @@ const ResultPage: React.FC<ResultPageProps> = ({
         Element to Reduce to Reduced Row Echelon Form(RREF)
       </h3>
 
-      <div className="text-6xl">
-        <MathJax>{display}</MathJax>
-        <MathJax>{result ? displayResult : ""}</MathJax>
+      <div className="">
+        <MathJax>{result ? displayResult.slice(0, currentValue + 1) : ""}</MathJax>
       </div>
       <button
         onClick={nextValue}

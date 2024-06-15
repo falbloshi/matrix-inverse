@@ -1,15 +1,15 @@
-import SizeInput from "./sizeinput"
-import MatrixInput from "./matrixinput"
+import SizeInput from "./sizeInput"
+import MatrixInput from "./matrixInput"
 import { Page } from "../utils/types"
 
 interface InputPageProps {
   value: number
   inputs: string[]
-  display: string
+  display: string | null
   currentPage: Page
   setValue: (value: number) => void
   setInputs: (inputs: string[]) => void
-  setDisplay: (display: string) => void
+  setDisplay: (display: string | null) => void
   navigate: (currentPage: Page, direction: "next" | "previous") => void
 }
 

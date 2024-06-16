@@ -1,11 +1,11 @@
 import { useState } from "react"
+import { useAppContext } from "../context/AppContext"
 
-interface SizeInputProps {
-  value: number;
-  setValue: (value: number) => void
-}
 
-const SizeInput: React.FC<SizeInputProps> = ({ value, setValue }) => {
+const SizeInput: React.FC = () => {
+
+  const { value, setValue } = useAppContext()
+
   const [isValid, setIsValid] = useState(true)
 
   const handleChange = (event: { target: { value: string } }) => {

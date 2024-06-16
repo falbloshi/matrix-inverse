@@ -2,20 +2,12 @@ import { useEffect, useRef, useState } from "react"
 import { MathJax } from "better-react-mathjax"
 import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
-import { Page, PageDirection } from "../utils/types"
+import { useAppContext } from "../context/AppContext"
 
-interface ResultPageProps {
-  inputs: string[]
-  display: string | null
-  currentPage: Page
-  navigate: (currentPage: Page, direction: PageDirection) => void
-}
+const ResultPage: React.FC = () => {
 
-const ResultPage: React.FC<ResultPageProps> = ({
-  inputs,
-  currentPage,
-  navigate,
-}) => {
+  const { inputs, currentPage, handleNavigate } = useAppContext()
+
   const [result, setResult] = useState<string[] | null>(null)
   const [isLast, setIsLast] = useState<boolean>(false)
   const [displayResult, setDisplayResult] = useState<JSX.Element[]>([])
@@ -84,13 +76,13 @@ const ResultPage: React.FC<ResultPageProps> = ({
 
       <div className="my-16">
         <button
-          onClick={() => navigate(currentPage, "previous")}
-          className="mr-4 px-4 py-2 font-pt-sans text-2xl text-white bg-blue-500 rounded hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+          onClick={() => handleNavigate(currentPage, "previous")}
+          className="nav-btn">
           {`< Previous Page`}
         </button>
         <button
-          onClick={() => navigate(currentPage, "next")}
-          className="ml-4 px-4 py-2 font-pt-sans text-2xl text-white bg-blue-500 rounded hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+          onClick={() => handleNavigate(currentPage, "next")}
+          className="nav-btn">
           {`Next Page >`}
         </button>
       </div>

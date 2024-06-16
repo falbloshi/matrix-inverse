@@ -1,18 +1,10 @@
 import Hero from "./hero"
-import { Page, PageDirection } from "../utils/types"
 
-interface HeroPageProps {
-  navigate: (currentPage: Page, direction: PageDirection) => void
-  currentPage: Page
-}
 
-const HeroPage: React.FC<HeroPageProps> = ({ navigate, currentPage }) => {
+const HeroPage: React.FC = () => {
   return (
     <div>
-      <Hero
-        navigate={navigate}
-        currentPage={currentPage}
-      />
+      <Hero />
     </div>
   )
 }

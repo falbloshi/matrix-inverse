@@ -1,62 +1,78 @@
 import { useEffect, useRef, useState } from "react"
 import matrixDisplay from "../utils/matrixDisplay"
+import { useDebounce } from "../utils/hooks"
 import { MathJax } from "better-react-mathjax"
+import { deserializeState } from "../utils/stateSerializer"
+import { useAppContext } from "../context/AppContext"
 
-interface MatrixInputProps {
-  value: number
-  inputs: string[]
-  display: string | null
-  setInputs: (inputs: string[]) => void
-  setDisplay: (display: string | null) => void
-}
+const MatrixInput: React.FC = () => {
 
-const MatrixInput: React.FC<MatrixInputProps> = ({
-  value,
-  inputs,
-  setInputs,
-  display,
-  setDisplay,
-}) => {
-  const numRows = value
+  const {
+    value,
+    inputs,
+    setInputs,
+    display,
+    setDisplay,
+  } = useAppContext()
+
+
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
-  const [error, setError] = useState<string>("")
+  const [errors, setErrors] = useState<string[]>([])
+
 
   const regEx = new RegExp("^-?[0-9]+(\/[1-9][0-9]*)?$");
 
-  const handleInputChange =
-    (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value
-      const newInputs = [...inputs]
-
-      const isRationalOrWhole = regEx.test(newValue)
-      if (isRationalOrWhole) {
-        newInputs[index] = newValue
-        setInputs(newInputs)
-        setError("")
-      }
-      else {
-        newInputs[index] = ""
-        setInputs(newInputs)
-        setError(prev => prev = `wrong entry at R ${Math.floor(index / numRows) + 1} C ${Math.floor(index % numRows) + 1}`)
-      }
-    }
+  const debouncedInputs = useDebounce(inputs)
 
   useEffect(() => {
-    const newInputs = Array(numRows * numRows).fill("")
-    const newRefs = Array(numRows * numRows).fill(null)
+    const queryString = window.location.search
+    if (queryString) {
+      const deserializedState = deserializeState(queryString.slice(1))
+      setInputs(deserializedState)
+    }
+  }, [setInputs])
+
+  useEffect(() => {
+    const validateInputs = () => {
+      const newErrors: string[] = []
+
+      debouncedInputs.forEach((newValue, index) => {
+        const isRationalOrWhole = regEx.test(newValue);
+        if (!isRationalOrWhole && newValue != "") {
+          newErrors.push(`Wrong entry at R ${Math.floor(index / value) + 1} C ${Math.floor(index % value) + 1} - please use a whole or a rational number with "/" forward slash with leading negative sign (e.g -5/3)`);
+        }
+      });
+
+      setErrors(newErrors)
+    };
+
+    validateInputs();
+  }, [debouncedInputs]);
+
+
+  const handleInputChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    const newInputs = [...inputs];
+    newInputs[index] = newValue;
+    setInputs(newInputs);
+  };
+
+  useEffect(() => {
+    const newInputs = Array(value * value).fill("")
+    const newRefs = Array(value * value).fill(null)
     setInputs(newInputs)
     inputRefs.current = newRefs
-  }, [numRows])
+  }, [value])
 
   const grid = []
-  for (let i = 0;i < numRows;i++) {
+  for (let i = 0;i < value;i++) {
     const row = []
-    for (let j = 0;j < numRows;j++) {
-      const index = i * numRows + j
+    for (let j = 0;j < value;j++) {
+      const index = i * value + j
       row.push(
         <input
-          key={`${i}-${j}-${numRows}`}
+          key={`${i}-${j}-${value}`}
           type="text"
           placeholder={`R${i + 1} C${j + 1}`}
           ref={el => (inputRefs.current[index] = el)}
@@ -88,7 +104,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   return (
     <>
       <div className={`grid grid-cols-[${value}] gap-4`}>{grid}</div>
-      <div className="my-4">{error && <p className="error">{error}</p>}</div>
+      {errors && errors.map(error => <p className="error my-4">{error}</p>)}
       <MathJax>{display}</MathJax>
     </>
   )

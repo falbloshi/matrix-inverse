@@ -1,14 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MathJaxContext } from "better-react-mathjax"
-import pageNavigation from "./utils/pageNavigation"
 import Navbar from "./components/navbar"
 import HeroPage from "./components/heroPage"
 import InputPage from "./components/inputPage"
 import ResultPage from "./components/resultPage"
-import { Page, PageDirection } from "./utils/types"
+import { serializeState } from "./utils/stateSerializer"
+import { useAppContext } from "./context/AppContext"
 
 const config = {
-  loader: { load: ["input/tex"] },
+  loader: { load: ["input/tex", "output/svg"] },
   tex: {
     inlineMath: [
       ["$", "$"],
@@ -25,45 +25,32 @@ const config = {
 }
 
 export default function Home() {
-  const [value, setValue] = useState<number>(2)
-  const [inputs, setInputs] = useState<string[]>([])
-  const [display, setDisplay] = useState<string | null>(null)
-  const [currentPage, setCurrentPage] = useState<Page>("heroPage")
+  const [serializedState, setSerializedState] = useState<string>("")
 
-  const handleNavigate = (currentPage: Page, direction: PageDirection) => {
-    const nextPage = pageNavigation(currentPage, direction)
-    setCurrentPage(nextPage)
-  }
+  const { inputs, currentPage } = useAppContext()
+
+
+  useEffect(() => {
+    setSerializedState(serializeState(inputs))
+    const serializedStateValues = serializeState(inputs)
+
+    window.history.pushState({}, '', `?${serializedStateValues}`)
+    setSerializedState(serializedStateValues)
+  }, [inputs])
+
 
   return (
     <MathJaxContext config={config}>
       <main className="mx-16">
         <Navbar />
         {currentPage === "heroPage" && (
-          <HeroPage
-            navigate={handleNavigate}
-            currentPage={currentPage}
-          />
+          <HeroPage />
         )}
         {currentPage === "inputPage" && (
-          <InputPage
-            navigate={handleNavigate}
-            currentPage={currentPage}
-            value={value}
-            setValue={setValue}
-            inputs={inputs}
-            setInputs={setInputs}
-            display={display}
-            setDisplay={setDisplay}
-          />
+          <InputPage />
         )}
         {currentPage == "resultPage" && (
-          <ResultPage
-            navigate={handleNavigate}
-            currentPage={currentPage}
-            inputs={inputs}
-            display={display}
-          />
+          <ResultPage />
         )}
       </main>
     </MathJaxContext>

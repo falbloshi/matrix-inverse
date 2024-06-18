@@ -32,7 +32,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [value, setValue] = useState<number>(2)
   const [inputs, setInputs] = useState<string[]>([])
   const [display, setDisplay] = useState<string | null>(null)
-  const [currentPage, setCurrentPage] = useState<Page>("heroPage")
+  const [currentPage, setCurrentPage] = useState<Page>("Home")
 
   const handleNavigate = (currentPage: Page, direction: PageDirection) => {
     const nextPage = pageNavigation(currentPage, direction)

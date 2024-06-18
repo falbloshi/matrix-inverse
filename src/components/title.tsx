@@ -1,11 +1,8 @@
 const Title = () => {
   return (
-    <div className="flex items-start justify-start">
-      <h1 className="title flex flex-col items-left ">
-        <span className="">Inverse</span>
-        <span className="italic">Matrix</span>
-      </h1>
-    </div>
+    <h1 className="font-inter font-light text-7xl text-white tracking-tighter">
+      Welcome to the <span className="font-bold text-secondary ">Inverse Matrix</span> app
+    </h1>
   )
 }
 export default Title

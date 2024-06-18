@@ -4,7 +4,7 @@ import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
 import { useAppContext } from "../context/AppContext"
 
-const ResultPage: React.FC = () => {
+const ResultPage = () => {
 
   const { inputs, currentPage, handleNavigate } = useAppContext()
 

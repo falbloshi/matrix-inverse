@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useAppContext } from "../context/AppContext"
 
 
-const SizeInput: React.FC = () => {
+const SizeInput = () => {
 
   const { value, setValue } = useAppContext()
 

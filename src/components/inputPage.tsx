@@ -2,7 +2,7 @@ import SizeInput from "./sizeInput"
 import MatrixInput from "./matrixInput"
 import { useAppContext } from "../context/AppContext"
 
-const InputPage: React.FC = () => {
+const InputPage = () => {
 
   const { currentPage, handleNavigate } = useAppContext()
 

@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react"
+
 import { MathJaxContext } from "better-react-mathjax"
 import Navbar from "./components/navbar"
 import HeroPage from "./components/heroPage"
 import InputPage from "./components/inputPage"
 import ResultPage from "./components/resultPage"
-import { serializeState } from "./utils/stateSerializer"
 import { useAppContext } from "./context/AppContext"
 
 const config = {
@@ -25,31 +24,19 @@ const config = {
 }
 
 export default function Home() {
-  const [serializedState, setSerializedState] = useState<string>("")
-
-  const { inputs, currentPage } = useAppContext()
-
-
-  useEffect(() => {
-    setSerializedState(serializeState(inputs))
-    const serializedStateValues = serializeState(inputs)
-
-    window.history.pushState({}, '', `?${serializedStateValues}`)
-    setSerializedState(serializedStateValues)
-  }, [inputs])
-
+  const { currentPage } = useAppContext()
 
   return (
     <MathJaxContext config={config}>
-      <main className="mx-16">
-        <Navbar />
-        {currentPage === "heroPage" && (
+      <Navbar currentPage={currentPage} />
+      <main >
+        {currentPage === "Home" && (
           <HeroPage />
         )}
-        {currentPage === "inputPage" && (
+        {currentPage === "Input" && (
           <InputPage />
         )}
-        {currentPage == "resultPage" && (
+        {currentPage == "Result" && (
           <ResultPage />
         )}
       </main>

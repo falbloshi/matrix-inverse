@@ -5,7 +5,7 @@ import { MathJax } from "better-react-mathjax"
 import { deserializeState } from "../utils/stateSerializer"
 import { useAppContext } from "../context/AppContext"
 
-const MatrixInput: React.FC = () => {
+const MatrixInput = () => {
 
   const {
     value,

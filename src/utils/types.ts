@@ -28,6 +28,6 @@ export type Matrix = Rational[][]
 
 export type Direction = "top-down" | "bottom-up"
 
-export type Page = 'heroPage' | 'inputPage' | 'resultPage'
+export type Page = "Home" | "Input" | "Result"
 
-export type PageDirection = 'next' | 'previous'
+export type PageDirection = "next" | "previous"

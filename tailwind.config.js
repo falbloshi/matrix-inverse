@@ -4,10 +4,24 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        "pt-sans": ["PT Sans", "sans-serif"],
-        "pt-serif": ["PT Serif", "serif"],
+        inter: [
+          "Inter",
+          "Helvetica",
+          "Noto Sans",
+          "Segoe UI",
+          "Arial",
+          "sans-serif",
+        ],
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: ["cupcake", "dim"],
+    darkTheme: "dim",
+    base: true,
+    styled: true,
+    utils: true,
+    themeRoot: ":root",
+  },
+  plugins: [require("daisyui")],
 }

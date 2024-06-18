@@ -1,7 +1,7 @@
 import Hero from "./hero"
 
 
-const HeroPage: React.FC = () => {
+const HeroPage = () => {
   return (
     <div>
       <Hero />

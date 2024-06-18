@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import matrixDisplay from "../utils/matrixDisplay"
 import { useDebounce } from "../utils/hooks"
 import { MathJax } from "better-react-mathjax"
-import { deserializeState } from "../utils/stateSerializer"
 import { useAppContext } from "../context/AppContext"
 
 const MatrixInput = () => {
@@ -15,8 +14,6 @@ const MatrixInput = () => {
     setDisplay,
   } = useAppContext()
 
-
-
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
   const [errors, setErrors] = useState<string[]>([])
 
@@ -24,14 +21,6 @@ const MatrixInput = () => {
   const regEx = new RegExp("^-?[0-9]+(\/[1-9][0-9]*)?$");
 
   const debouncedInputs = useDebounce(inputs)
-
-  useEffect(() => {
-    const queryString = window.location.search
-    if (queryString) {
-      const deserializedState = deserializeState(queryString.slice(1))
-      setInputs(deserializedState)
-    }
-  }, [setInputs])
 
   useEffect(() => {
     const validateInputs = () => {

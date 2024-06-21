@@ -3,6 +3,7 @@ import { MathJax } from "better-react-mathjax"
 import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
 import { useAppContext } from "../context/AppContext"
+import NavigationButtons from "./navigationButtons"
 
 const ResultPage = () => {
 
@@ -59,7 +60,7 @@ const ResultPage = () => {
   }, [currentValue, displayResult]);
 
   return (
-    <div>
+    <div className="flex flex-col mx-48 my-32 items-start justify-start">
       <h3 className="font-pt-sans">
         Element to Reduce to Reduced Row Echelon Form(RREF)
       </h3>
@@ -74,18 +75,7 @@ const ResultPage = () => {
         {isLast ? "Result" : "Find Next Value"}
       </button>
 
-      <div className="my-16">
-        <button
-          onClick={() => handleNavigate(currentPage, "previous")}
-          className="nav-btn">
-          {`< Previous Page`}
-        </button>
-        <button
-          onClick={() => handleNavigate(currentPage, "next")}
-          className="nav-btn">
-          {`Next Page >`}
-        </button>
-      </div>
+      <NavigationButtons />
     </div>
   )
 }

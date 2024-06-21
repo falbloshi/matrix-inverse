@@ -1,28 +1,16 @@
 import SizeInput from "./sizeInput"
 import MatrixInput from "./matrixInput"
-import { useAppContext } from "../context/AppContext"
+import NavigationButtons from "./navigationButtons"
 
 const InputPage = () => {
 
-  const { currentPage, handleNavigate } = useAppContext()
 
   return (
-    <>
+    <div className="flex flex-col mx-48 my-32 items-start justify-start">
       <SizeInput />
       <MatrixInput />
-      <div className="my-16">
-        <button
-          onClick={() => handleNavigate(currentPage, "previous")}
-          className="nav-btn">
-          {`< Previous Page`}
-        </button>
-        <button
-          onClick={() => handleNavigate(currentPage, "next")}
-          className="nav-btn">
-          {`Next Page >`}
-        </button>
-      </div>
-    </>
+      <NavigationButtons />
+    </div>
   )
 }
 

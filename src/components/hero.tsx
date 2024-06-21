@@ -11,7 +11,7 @@ const Hero = () => {
       <div className="flex flex-col items-start max-w-[768px] gap-16">
         <Title />
 
-        <p className="font-inter text-4xl text-white text font-light">Here, we can use this progressive  web app to find the inverse of a square matrix</p>
+        <p className="paragraph">Here, we can use this progressive  web app to find the inverse of a square matrix</p>
 
         <button onClick={() => handleNavigate(currentPage, "next")} className="btn btn-secondary text-2xl font-inter font-black"><span className="text-base-100">TRY IT NOW!</span></button>
       </div>

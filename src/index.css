@@ -5,7 +5,7 @@
 @import "tailwindcss/utilities";
 
 :root {
-  font-family: serif;
+  font-family: inter, sans-serif;
 }
 
 .title {
@@ -13,13 +13,17 @@
 }
 
 .paragraph {
-  @apply font-inter text-3xl font-semibold text-neutral-700;
+  @apply font-inter text-4xl font-light text-neutral-content;
 }
 
-.error {
-  @apply font-inter text-xl text-red-700 bg-red-200 p-4  w-fit rounded-md;
+.grid-items {
+  @apply input input-bordered focus:input-primary w-32 text-2xl placeholder:text-xs;
 }
 
-.nav-btn {
-  @apply mr-4 px-4 py-2 font-inter text-2xl text-white bg-blue-500 rounded hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50;
+.daisy-ui-input:focus {
+  outline: none !important; /* Removes the outline */
+}
+
+.input:focus {
+  outline: none !important;
 }

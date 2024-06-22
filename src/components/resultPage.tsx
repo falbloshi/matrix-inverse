@@ -10,7 +10,6 @@ const ResultPage = () => {
   const { inputs } = useAppContext()
 
   const [result, setResult] = useState<string[] | null>(null)
-  // const [isLast, setIsLast] = useState<boolean>(false)
   const [displayResult, setDisplayResult] = useState<JSX.Element[]>([])
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const latestElementRef = useRef<HTMLDivElement | null>(null)

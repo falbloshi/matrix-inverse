@@ -25,7 +25,7 @@ export default {
     },
   },
   daisyui: {
-    themes: ["cupcake", "dim"],
+    themes: ["pastel", "dim"],
     darkTheme: "dim",
     base: true,
     styled: true,

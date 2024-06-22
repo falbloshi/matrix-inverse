@@ -1,4 +1,3 @@
-
 import { MathJaxContext } from "better-react-mathjax"
 import Navbar from "./components/navbar"
 import HeroPage from "./components/heroPage"
@@ -19,8 +18,8 @@ const config = {
     ],
   },
   svg: {
-    scale: 3.0
-  }
+    scale: 3.0,
+  },
 }
 
 export default function Home() {
@@ -28,17 +27,11 @@ export default function Home() {
 
   return (
     <MathJaxContext config={config}>
-      <Navbar currentPage={currentPage} />
-      <main >
-        {currentPage === "Home" && (
-          <HeroPage />
-        )}
-        {currentPage === "Input" && (
-          <InputPage />
-        )}
-        {currentPage == "Result" && (
-          <ResultPage />
-        )}
+      <Navbar />
+      <main>
+        {currentPage === "Home" && <HeroPage />}
+        {currentPage === "Input" && <InputPage />}
+        {currentPage == "Result" && <ResultPage />}
       </main>
     </MathJaxContext>
   )

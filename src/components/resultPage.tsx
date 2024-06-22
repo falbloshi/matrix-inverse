@@ -4,27 +4,35 @@ import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
 import { useAppContext } from "../context/AppContext"
 import NavigationButtons from "./navigationButtons"
+import ResultNavigationButton from "./resultNavigationButtons"
 
 const ResultPage = () => {
-
-  const { inputs, currentPage, handleNavigate } = useAppContext()
+  const { inputs } = useAppContext()
 
   const [result, setResult] = useState<string[] | null>(null)
-  const [isLast, setIsLast] = useState<boolean>(false)
+  // const [isLast, setIsLast] = useState<boolean>(false)
   const [displayResult, setDisplayResult] = useState<JSX.Element[]>([])
-  const [currentValue, setCurrentValue] = useState<number>(0)
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
   const latestElementRef = useRef<HTMLDivElement | null>(null)
 
   const nextValue = () => {
-    if (!result || currentValue >= result.length - 1) return
+    if (!result) return
+    if (currentIndex >= result.length - 1) return
+    setCurrentIndex(prev => prev + 1)
+  }
 
-    setCurrentValue(prev => prev + 1)
+  const prevValue = () => {
+    if (currentIndex <= 0) return
+    setCurrentIndex(prev => prev - 1)
+  }
 
-    if (currentValue == result.length - 2) {
-      setIsLast(true)
-    } else if (isLast) {
-      setCurrentValue(result.length - 1)
-    }
+  const firstValue = () => {
+    setCurrentIndex(0)
+  }
+
+  const lastValue = () => {
+    if (!result) return
+    setCurrentIndex(result.length - 1)
   }
 
   useEffect(() => {
@@ -32,9 +40,8 @@ const ResultPage = () => {
       setResult(_prevResult =>
         matrixWithRowOpsDisplay(gaussElimination(inputs) as any[])
       )
-      setCurrentValue(0)
+      setCurrentIndex(0)
       setDisplayResult([])
-      setIsLast(false)
     } else {
       setResult(null)
     }
@@ -42,39 +49,70 @@ const ResultPage = () => {
 
   useEffect(() => {
     if (result !== null) {
-      // const currentSlice = result.slice(0, currentValue + 1)
-      setDisplayResult(prev =>
-        prev = result.map((element, index) =>
-          <div key={index} ref={index === currentValue ? latestElementRef : null}>
-            {index > 0 && <h3 className="text-3xl">{index}. </h3>}
-            <MathJax>{`$$${element}$$`}</MathJax>
-          </div>)
+      setDisplayResult(
+        _prev =>
+          (_prev = result.map((element, index) => (
+            <div
+              key={index}
+              ref={index === currentIndex ? latestElementRef : null}>
+              {index > 0 && <h3 className="font-serif">{index}. </h3>}
+              <MathJax>{`$$${element}$$`}</MathJax>
+            </div>
+          )))
       )
     }
-  }, [currentValue, result])
+  }, [currentIndex, result])
 
   useEffect(() => {
     if (latestElementRef.current) {
-      latestElementRef.current.scrollIntoView({ behavior: "smooth" });
+      latestElementRef.current.scrollIntoView({ behavior: "smooth" })
     }
-  }, [currentValue, displayResult]);
+  }, [currentIndex, displayResult])
 
   return (
     <div className="flex flex-col mx-48 my-32 items-start justify-start">
-      <h3 className="font-pt-sans">
-        Element to Reduce to Reduced Row Echelon Form(RREF)
-      </h3>
+      <p className="paragraph mb-4">
+        Element to reduce to Reduced Row Echelon Form(RREF)
+      </p>
 
-      <div className="">
-        <MathJax>{result ? displayResult.slice(0, currentValue + 1) : ""}</MathJax>
-      </div>
-      <button
-        onClick={nextValue}
-        className="bg-neutral-700 text-white font-pt-sans text-2xl p-4 hover:bg-slate-500">
-        {" "}
-        {isLast ? "Result" : "Find Next Value"}
-      </button>
-
+      {result && (
+        <div className="flex flex-row flex-grow gap-32 h-fit">
+          <div className="flex items-end">
+            <ResultNavigationButton
+              first={firstValue}
+              last={lastValue}
+              next={nextValue}
+              prev={prevValue}
+              current={currentIndex}
+              indexSize={result.length - 1}
+            />
+          </div>
+          <div>
+            <MathJax>
+              {result ? displayResult.slice(0, currentIndex + 1) : ""}
+            </MathJax>
+          </div>
+        </div>
+      )}
+      {!result && (
+        <p className="alert alert-error">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-8">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+          There is not input from Input page or the result is not an inversible
+          matrix.
+        </p>
+      )}
       <NavigationButtons />
     </div>
   )

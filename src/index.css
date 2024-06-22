@@ -20,10 +20,11 @@
   @apply input input-bordered focus:input-primary w-32 text-2xl placeholder:text-xs;
 }
 
-.daisy-ui-input:focus {
-  outline: none !important; /* Removes the outline */
+.input {
+  outline: none !important;
 }
 
-.input:focus {
-  outline: none !important;
+.input.input-error:focus {
+  background-color: oklch(var(--er));
+  color: oklch(var(--erc));
 }

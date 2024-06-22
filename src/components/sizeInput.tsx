@@ -5,9 +5,9 @@ import { useDebounce } from "../utils/hooks"
 
 const SizeInput = () => {
 
-  const { value, setValue } = useAppContext()
+  const { matrixSize, setMatrixSize } = useAppContext()
   const [isValid, setIsValid] = useState(true)
-  const [localValue, setLocalValue] = useState<string | number>(value)
+  const [localValue, setLocalValue] = useState<string | number>(matrixSize)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const debouncedValue = useDebounce(localValue, 200)
@@ -17,7 +17,7 @@ const SizeInput = () => {
     const inputValue = parseInt(event.target.value)
 
     if (!isNaN(inputValue) && inputValue >= 2 && inputValue <= 4) {
-      setValue(inputValue)
+      setMatrixSize(inputValue)
       setIsValid(true)
     }
   }
@@ -38,7 +38,7 @@ const SizeInput = () => {
         id="gridSize"
         name="gridSize"
         ref={inputRef}
-        defaultValue={value}
+        defaultValue={matrixSize}
         onChange={handleChange}
         className={`input input-bordered focus:input-primary w-12 mb-4 text-2xl ${isValid ? '' : 'input-error focus:input-error'} `}
       />

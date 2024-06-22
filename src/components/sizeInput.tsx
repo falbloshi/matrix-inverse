@@ -6,7 +6,7 @@ import { useDebounce } from "../utils/hooks"
 const SizeInput = () => {
 
   const { matrixSize, setMatrixSize } = useAppContext()
-  const [isValid, setIsValid] = useState(true)
+  const [isValid, setIsValid] = useState<boolean>(true)
   const [localValue, setLocalValue] = useState<string | number>(matrixSize)
   const inputRef = useRef<HTMLInputElement>(null)
 

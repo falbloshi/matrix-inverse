@@ -5,6 +5,7 @@ import InputPage from "./components/inputPage"
 import ResultPage from "./components/resultPage"
 import { useAppContext } from "./context/AppContext"
 
+
 const config = {
   loader: { load: ["input/tex", "output/svg"] },
   tex: {

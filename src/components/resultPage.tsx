@@ -9,7 +9,7 @@ import ResultNavigationButton from "./resultNavigationButtons"
 const ResultPage = () => {
   const { inputs } = useAppContext()
 
-  const [result, setResult] = useState<string[] | null>(null)
+  const [result, setResult] = useState<string[] | null>([])
   const [displayResult, setDisplayResult] = useState<JSX.Element[]>([])
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const latestElementRef = useRef<HTMLDivElement | null>(null)
@@ -36,7 +36,7 @@ const ResultPage = () => {
 
   useEffect(() => {
     if (inputs) {
-      setResult(_prevResult =>
+      setResult(
         matrixWithRowOpsDisplay(gaussElimination(inputs) as any[])
       )
       setCurrentIndex(0)

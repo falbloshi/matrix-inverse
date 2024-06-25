@@ -4,6 +4,9 @@ import HeroPage from "./components/heroPage"
 import InputPage from "./components/inputPage"
 import ResultPage from "./components/resultPage"
 import { useAppContext } from "./context/AppContext"
+import { motion as m } from "framer-motion"
+
+import { slideFromLeftSpringy } from "./animations"
 
 
 const config = {
@@ -30,10 +33,27 @@ export default function Home() {
     <MathJaxContext config={config}>
       <Navbar />
       <main>
-        {currentPage === "Home" && <HeroPage />}
-        {currentPage === "Input" && <InputPage />}
-        {currentPage == "Result" && <ResultPage />}
+        {currentPage === "Home" &&
+          <m.div
+            initial="hidden"
+            animate="show"
+            variants={slideFromLeftSpringy}
+          >
+            <HeroPage />
+          </m.div>
+        }
+        {currentPage === "Input" &&
+          <m.div
+            initial="hidden"
+            animate="show"
+            variants={slideFromLeftSpringy}
+          ><InputPage /></m.div>}
+        {currentPage == "Result" && <m.div
+          initial="hidden"
+          animate="show"
+          variants={slideFromLeftSpringy}
+        ><ResultPage /></m.div>}
       </main>
-    </MathJaxContext>
+    </MathJaxContext >
   )
 }

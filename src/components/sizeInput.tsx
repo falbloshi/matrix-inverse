@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { useAppContext } from "../context/AppContext"
 import { useDebounce } from "../utils/hooks"
+import InputErrors from "./inputErrors"
+import { AnimatePresence } from "framer-motion"
 
 
 const SizeInput = () => {
@@ -11,6 +13,8 @@ const SizeInput = () => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const debouncedValue = useDebounce(localValue, 200)
+
+  const error = `Please insert a correct value between 2 and 4, you have inserted ${localValue ? localValue : 'an empty value'}`
 
   const handleChange = (event: { target: { value: string } }) => {
     setLocalValue(event.target.value)
@@ -42,16 +46,22 @@ const SizeInput = () => {
         onChange={handleChange}
         className={`input input-bordered focus:input-primary w-12 mb-4 text-2xl ${isValid ? '' : 'input-error focus:input-error'} `}
       />
-      {!isValid && (
-        <div className="alert alert-error mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
-            <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>
+      <AnimatePresence>
+        {!isValid &&
+          <InputErrors error={`Please insert a correct value between 2 and 4, you have inserted ${localValue ? localValue : 'an empty value'}`} />
+        }
+      </AnimatePresence>
+    </div>)
 
-          <span className="text-xl">Please insert a correct value between 2 and 4, you have inserted {localValue ? localValue : "an empty value"}</span>
-        </div>
-      )}
-    </div>
-  )
 }
+
 export default SizeInput
+
+
+// <div className="alert alert-error mb-4">
+//   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+//     <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+//   </svg>
+
+//   <span className="text-xl">Please insert a correct value between 2 and 4, you have inserted {localValue ? localValue : "an empty value"}</span>
+// </div>

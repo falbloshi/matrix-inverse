@@ -4,6 +4,7 @@ import { useDebounce } from "../utils/hooks"
 import { MathJax } from "better-react-mathjax"
 import { useAppContext } from "../context/AppContext"
 import InputErrors from "./inputErrors"
+import { AnimatePresence } from "framer-motion"
 
 const MatrixInput = () => {
   const { matrixSize, inputs, setInputs, display, setDisplay } = useAppContext()
@@ -25,8 +26,7 @@ const MatrixInput = () => {
         const isRationalOrWhole = regEx.test(newValue)
         if (!isRationalOrWhole && newValue != "") {
           newErrors.push(
-            `Wrong entry at R${Math.floor(index / matrixSize) + 1} C${
-              Math.floor(index % matrixSize) + 1
+            `Wrong entry at R${Math.floor(index / matrixSize) + 1} C${Math.floor(index % matrixSize) + 1
             } - please use a whole(eg. 0, 1, -3) or a rational number with "/" forward slash with leading negative sign (e.g -5/3 or 4/7)`
           )
           newErrorIndices.push(index)
@@ -64,9 +64,9 @@ const MatrixInput = () => {
   }, [matrixSize])
 
   const grid = []
-  for (let i = 0; i < matrixSize; i++) {
+  for (let i = 0;i < matrixSize;i++) {
     const row = []
-    for (let j = 0; j < matrixSize; j++) {
+    for (let j = 0;j < matrixSize;j++) {
       const index = i * matrixSize + j
       row.push(
         <input
@@ -101,13 +101,15 @@ const MatrixInput = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className={`grid grid-cols-[${matrixSize}] gap-4`}>{grid}</div>
-      {errors &&
-        errors.map((error, index) => (
-          <InputErrors
-            key={index}
-            error={error}
-          />
-        ))}
+      <AnimatePresence>
+        {errors &&
+          errors.map((error, index) => (
+            <InputErrors
+              key={index}
+              error={error}
+            />
+          ))}
+      </AnimatePresence>
 
       <MathJax className="ml-12">{display}</MathJax>
     </div>

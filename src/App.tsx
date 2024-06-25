@@ -47,12 +47,16 @@ export default function Home() {
             initial="hidden"
             animate="show"
             variants={slideFromLeftSpringy}
-          ><InputPage /></m.div>}
+          >
+            <InputPage />
+          </m.div>}
         {currentPage == "Result" && <m.div
           initial="hidden"
           animate="show"
           variants={slideFromLeftSpringy}
-        ><ResultPage /></m.div>}
+        >
+          <ResultPage />
+        </m.div>}
       </main>
     </MathJaxContext >
   )

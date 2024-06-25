@@ -13,3 +13,13 @@ export const slideFromLeftSpringy = {
     },
   },
 }
+
+export const alertMessagePopInAndOut = {
+  hidden: { scale: 0 },
+  popIn: {
+    scale: 1,
+  },
+  popOut: {
+    scale: 0,
+  },
+}

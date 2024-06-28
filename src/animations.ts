@@ -24,13 +24,15 @@ export const alertMessagePopInAndOut = {
   },
 }
 
-
 export const inputContainer = {
-    hidden: {  scale: 0 },
-    visible: { scale: 1, transition: { staggerChildren: 0.4 } }
+  hidden: { scale: 0 },
+  visible: {
+    scale: 1,
+    transition: { delayChildren: 0.25, staggerChildren: 0.25 },
+  },
 }
 
 export const inputPopIn = {
-  hidden: {scale: 0},
-  visible: {scale: 1}
+  hidden: { scale: 0 },
+  visible: { scale: 1 },
 }

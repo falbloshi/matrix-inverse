@@ -1,15 +1,15 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import matrixDisplay from "../utils/matrixDisplay"
 import { useDebounce } from "../utils/hooks"
 import { MathJax } from "better-react-mathjax"
 import { useAppContext } from "../context/AppContext"
 import InputErrors from "./inputErrors"
 import { AnimatePresence } from "framer-motion"
+import MatrixGrid from "./matrixGrid"
 
 const MatrixInput = () => {
   const { matrixSize, inputs, setInputs, display, setDisplay } = useAppContext()
 
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
   const [errors, setErrors] = useState<string[]>([])
   const [errorIndices, setErrorIndices] = useState<number[]>([])
 
@@ -50,40 +50,9 @@ const MatrixInput = () => {
     }
 
   useEffect(() => {
-    inputRefs.current.forEach((ref, index) => {
-      errorIndices.includes(index)
-        ? ref?.classList.add("input-error", "focus:input-error")
-        : ref?.classList.remove("input-error", "focus:input-error")
-    })
-  }, [errorIndices])
-
-  useEffect(() => {
     const newInputs = Array(matrixSize * matrixSize).fill("")
-    const newRefs = Array(matrixSize * matrixSize).fill(null)
     setInputs(newInputs)
-    inputRefs.current = newRefs
   }, [matrixSize])
-
-  const grid = Array.from({ length: matrixSize }).map((_, i) => (
-    <div
-      key={i}
-      className={`grid-items-row`}>
-      {Array.from({ length: matrixSize }).map((_, j) => {
-        const index = i * matrixSize + j
-        return (
-          <input
-            key={index}
-            type="text"
-            placeholder={`R${i + 1} C${j + 1}`}
-            ref={el => (inputRefs.current[index] = el)}
-            value={inputs[index]}
-            onChange={handleInputChange(index)}
-            className="grid-items"
-          />
-        )
-      })}
-    </div>
-  ))
 
   useEffect(() => {
     if (inputs.every(item => item.trim() != "")) {
@@ -96,7 +65,12 @@ const MatrixInput = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className={`grid grid-cols-[${matrixSize}] gap-4`}>{grid}</div>
+      <div className={`grid grid-cols-[${matrixSize}] gap-4`}>
+        <MatrixGrid
+          handleInputChange={handleInputChange}
+          errorIndices={errorIndices}
+        />
+      </div>
       <AnimatePresence>
         {errors &&
           errors.map((error, index) => (

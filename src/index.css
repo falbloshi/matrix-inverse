@@ -13,14 +13,19 @@
 }
 
 .grid-items {
-  @apply input input-bordered focus:input-primary w-32 text-2xl placeholder:text-xs focus:outline-0 ;
+  @apply input input-bordered focus:input-primary w-32 text-2xl placeholder:text-xs focus:outline-0;
 }
 
 .grid-items-row {
-  @apply flex flex-row gap-4
+  @apply flex flex-row gap-4;
 }
 
-.input-error:focus {
+.custom-input-error:focus {
   background-color: oklch(var(--er));
   color: oklch(var(--erc));
+  border-color: oklch(var(--er)) !important;
+}
+
+.custom-input-error {
+  border-color: oklch(var(--er));
 }

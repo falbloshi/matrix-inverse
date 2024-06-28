@@ -8,20 +8,16 @@
   font-family: inter, sans-serif;
 }
 
-.title {
-  @apply font-inter text-9xl font-semibold text-neutral-700;
-}
-
 .paragraph {
   @apply font-inter text-4xl font-light text-base-content;
 }
 
 .grid-items {
-  @apply input input-bordered focus:input-primary w-32 text-2xl placeholder:text-xs;
+  @apply input input-bordered focus:input-primary w-32 text-2xl placeholder:text-xs focus:outline-0 ;
 }
 
-.input {
-  outline: none !important;
+.grid-items-row {
+  @apply flex flex-row gap-4
 }
 
 .input-error:focus {

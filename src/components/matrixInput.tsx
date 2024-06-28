@@ -4,7 +4,8 @@ import { useDebounce } from "../utils/hooks"
 import { MathJax } from "better-react-mathjax"
 import { useAppContext } from "../context/AppContext"
 import InputErrors from "./inputErrors"
-import { AnimatePresence } from "framer-motion"
+import { motion as m, AnimatePresence } from "framer-motion"
+import { inputContainer, inputPopIn } from "../animations"
 
 const MatrixInput = () => {
   const { matrixSize, inputs, setInputs, display, setDisplay } = useAppContext()
@@ -26,7 +27,8 @@ const MatrixInput = () => {
         const isRationalOrWhole = regEx.test(newValue)
         if (!isRationalOrWhole && newValue != "") {
           newErrors.push(
-            `Wrong entry at R${Math.floor(index / matrixSize) + 1} C${Math.floor(index % matrixSize) + 1
+            `Wrong entry at R${Math.floor(index / matrixSize) + 1} C${
+              Math.floor(index % matrixSize) + 1
             } - please use a whole(eg. 0, 1, -3) or a rational number with "/" forward slash with leading negative sign (e.g -5/3 or 4/7)`
           )
           newErrorIndices.push(index)
@@ -63,31 +65,26 @@ const MatrixInput = () => {
     inputRefs.current = newRefs
   }, [matrixSize])
 
-  const grid = []
-  for (let i = 0;i < matrixSize;i++) {
-    const row = []
-    for (let j = 0;j < matrixSize;j++) {
-      const index = i * matrixSize + j
-      row.push(
-        <input
-          key={`${i}-${j}-${matrixSize}`}
-          type="text"
-          placeholder={`R${i + 1} C${j + 1}`}
-          ref={el => (inputRefs.current[index] = el)}
-          value={inputs[index]}
-          onChange={handleInputChange(index)}
-          className="input input-bordered focus:input-primary w-32 h-12 text-2xl placeholder:text-xs"
-        />
-      )
-    }
-    grid.push(
-      <div
-        key={i}
-        className={`flex flex-row justify-left gap-4`}>
-        {row}
-      </div>
-    )
-  }
+  const grid = Array.from({ length: matrixSize }).map((_, i) => (
+    <div
+      key={i}
+      className={`grid-items-row`}>
+      {Array.from({ length: matrixSize }).map((_, j) => {
+        const index = i * matrixSize + j
+        return (
+          <input
+            key={index}
+            type="text"
+            placeholder={`R${i + 1} C${j + 1}`}
+            ref={el => (inputRefs.current[index] = el)}
+            value={inputs[index]}
+            onChange={handleInputChange(index)}
+            className="grid-items"
+          />
+        )
+      })}
+    </div>
+  ))
 
   useEffect(() => {
     if (inputs.every(item => item.trim() != "")) {

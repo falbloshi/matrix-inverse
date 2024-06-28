@@ -12,11 +12,12 @@ const matrixDisplay = (input: string[]) => {
         row += " & "
       }
     }
-    if (i < size - 1) {
-      result += row + "\\\\\n"
-    } else {
-      result += row + "\n\\end{bmatrix}"
-    }
+
+    result += 
+    i < size - 1 
+    ? row + "\\\\\n" 
+    : row + "\n\\end{bmatrix}"
+
   }
   return result
 }

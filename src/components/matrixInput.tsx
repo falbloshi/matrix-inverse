@@ -4,8 +4,7 @@ import { useDebounce } from "../utils/hooks"
 import { MathJax } from "better-react-mathjax"
 import { useAppContext } from "../context/AppContext"
 import InputErrors from "./inputErrors"
-import { motion as m, AnimatePresence } from "framer-motion"
-import { inputContainer, inputPopIn } from "../animations"
+import { AnimatePresence } from "framer-motion"
 
 const MatrixInput = () => {
   const { matrixSize, inputs, setInputs, display, setDisplay } = useAppContext()

@@ -26,6 +26,10 @@
   border-color: oklch(var(--er)) !important;
 }
 
+.custom-input-error:focus::placeholder {
+  color: oklch(var(--b2));
+}
+
 .custom-input-error {
   border-color: oklch(var(--er));
 }

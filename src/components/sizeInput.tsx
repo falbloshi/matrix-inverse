@@ -48,7 +48,7 @@ const SizeInput = () => {
       />
       <AnimatePresence>
         {!isValid &&
-          <InputErrors error={`Please insert a correct value between 2 and 4, you have inserted ${localValue ? localValue : 'an empty value'}`} />
+          <InputErrors error={error} />
         }
       </AnimatePresence>
     </div>)

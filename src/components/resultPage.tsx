@@ -7,7 +7,6 @@ import ReturnDisplayResult from "./returnDisplayResult"
 import { motion as m } from "framer-motion"
 
 const ResultPage = () => {
-
   const displayResult = ReturnDisplayResult()
 
   const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -52,19 +51,24 @@ const ResultPage = () => {
           </div>
           <div>
             <MathJax>
-              {displayResult
-                ? <m.div> displayResult.slice(0, currentIndex + 1) </m.div>
-                : ""}
+              {displayResult ? (
+                <m.div> displayResult.slice(0, currentIndex + 1) </m.div>
+              ) : (
+                ""
+              )}
             </MathJax>
           </div>
         </div>
       )}
       {!displayResult && (
-        <InputErrors error={"There is not input from Input page or the result is not an inversible matrix."} />
+        <InputErrors
+          error={
+            "There is not input from Input page or the result is not an inversible matrix."
+          }/>
       )
       }
       <NavigationButtons />
-    </div >
+    </div>
   )
 }
 

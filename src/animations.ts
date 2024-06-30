@@ -36,3 +36,7 @@ export const inputPopIn = {
   hidden: { scale: 0 },
   visible: { scale: 1 },
 }
+
+export const resultContainer = {
+  
+}

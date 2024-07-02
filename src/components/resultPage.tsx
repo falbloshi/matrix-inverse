@@ -1,19 +1,22 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MathJax } from "better-react-mathjax"
 import NavigationButtons from "./navigationButtons"
 import ResultNavigationButton from "./resultNavigationButtons"
 import InputErrors from "./inputErrors"
 import ReturnDisplayResult from "./returnDisplayResult"
 import { motion as m } from "framer-motion"
+import { resultSlideIn } from "../animations"
+import { AnimatePresence } from "framer-motion"
 
 const ResultPage = () => {
-  const displayResult = ReturnDisplayResult()
+  const displayElements = ReturnDisplayResult()
 
   const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [elements, setElements] = useState(displayElements)
 
   const nextValue = () => {
-    if (!displayResult) return
-    if (currentIndex >= displayResult.length - 1) return
+    if (!displayElements) return
+    if (currentIndex >= displayElements.length - 1) return
     setCurrentIndex(prev => prev + 1)
   }
 
@@ -27,9 +30,27 @@ const ResultPage = () => {
   }
 
   const lastValue = () => {
-    if (!displayResult) return
-    setCurrentIndex(displayResult.length - 1)
+    if (!displayElements) return
+    setCurrentIndex(displayElements.length - 1)
   }
+
+  useEffect(() => {
+    const result = displayElements
+      ?.slice(0, currentIndex + 1)
+      .map((element, index) => (
+        <m.div
+          key={index}
+          className={`child overflow-hidden w-fit`}
+          variants={resultSlideIn}
+          initial="hidden"
+          animate="visible"
+          exit="exit">
+          {element}
+        </m.div>
+      ))
+
+    if (result) setElements(result)
+  }, [currentIndex])
 
   return (
     <div className="flex flex-col mx-48 my-32 items-start justify-start">
@@ -37,7 +58,7 @@ const ResultPage = () => {
         Element to reduce to Reduced Row Echelon Form(RREF)
       </p>
 
-      {displayResult && (
+      {displayElements && (
         <div className="flex flex-row flex-grow gap-32 h-fit">
           <div className="flex items-end">
             <ResultNavigationButton
@@ -46,27 +67,25 @@ const ResultPage = () => {
               next={nextValue}
               prev={prevValue}
               current={currentIndex}
-              indexSize={displayResult.length - 1}
+              indexSize={displayElements.length - 1}
             />
           </div>
-          <div>
-            <MathJax>
-              {displayResult ? (
-                <m.div> displayResult.slice(0, currentIndex + 1) </m.div>
-              ) : (
-                ""
-              )}
-            </MathJax>
-          </div>
+          <AnimatePresence>
+            <m.div>
+              <MathJax>{elements}</MathJax>
+            </m.div>
+          </AnimatePresence>
         </div>
       )}
-      {!displayResult && (
+
+      {!displayElements && (
         <InputErrors
           error={
             "There is not input from Input page or the result is not an inversible matrix."
-          }/>
-      )
-      }
+          }
+        />
+      )}
+
       <NavigationButtons />
     </div>
   )

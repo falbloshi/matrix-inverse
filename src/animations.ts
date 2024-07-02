@@ -37,6 +37,17 @@ export const inputPopIn = {
   visible: { scale: 1 },
 }
 
-export const resultContainer = {
-  
+export const resultSlideIn = {
+  hidden: { width: 0, x: -20 },
+  visible: {
+    width: "100%",
+    x: 0,
+    transition: {
+      ease: "easeOut",
+      duration: 0.5,
+    },
+  },
+  exit: {
+    scale: 0,
+  },
 }

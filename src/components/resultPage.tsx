@@ -39,7 +39,7 @@ const ResultPage = () => {
       ?.slice(0, currentIndex + 1)
       .map((element, index) => (
         <m.div
-          key={index}
+          key={index + `mathJaxElement`}
           className={`child overflow-hidden w-fit`}
           variants={resultSlideIn}
           initial="hidden"

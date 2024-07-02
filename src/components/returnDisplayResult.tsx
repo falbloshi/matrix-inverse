@@ -5,10 +5,9 @@ import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
 
 const ReturnDisplayResult = () => {
   const { inputs } = useAppContext()
-  let matrix: any[] | null
 
   if (inputs) {
-    matrix = matrixWithRowOpsDisplay(gaussElimination(inputs) as any[])
+    const matrix = matrixWithRowOpsDisplay(gaussElimination(inputs) as any[])
 
     if (matrix) {
       return matrix.map((element, index) => (

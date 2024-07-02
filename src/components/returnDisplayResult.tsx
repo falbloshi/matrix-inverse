@@ -1,10 +1,10 @@
-import { useAppContext } from "../context/AppContext"
-import { MathJax } from "better-react-mathjax"
+import {useAppContext} from "../context/AppContext"
+import {MathJax} from "better-react-mathjax"
 import gaussElimination from "../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
 
 const ReturnDisplayResult = () => {
-  const { inputs } = useAppContext()
+  const {inputs} = useAppContext()
   let matrix: any[] | null
 
   if (inputs) {

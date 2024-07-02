@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
-import { MathJax } from "better-react-mathjax"
+import {useEffect, useState} from "react"
+import {MathJax} from "better-react-mathjax"
 import NavigationButtons from "./navigationButtons"
 import ResultNavigationButton from "./resultNavigationButtons"
 import InputErrors from "./inputErrors"
 import ReturnDisplayResult from "./returnDisplayResult"
-import { motion as m } from "framer-motion"
-import { resultSlideIn } from "../animations"
-import { AnimatePresence } from "framer-motion"
+import {motion as m} from "framer-motion"
+import {resultSlideIn} from "../animations"
+import {AnimatePresence} from "framer-motion"
 
 const ResultPage = () => {
   const displayElements = ReturnDisplayResult()
@@ -39,8 +39,8 @@ const ResultPage = () => {
       ?.slice(0, currentIndex + 1)
       .map((element, index) => (
         <m.div
-          key={index + `mathJaxElement`}
-          className={`child overflow-hidden w-fit`}
+          key={index}
+          className={` overflow-hidden w-fit`}
           variants={resultSlideIn}
           initial="hidden"
           animate="visible"
@@ -70,11 +70,16 @@ const ResultPage = () => {
               indexSize={displayElements.length - 1}
             />
           </div>
-          <AnimatePresence>
-            <m.div>
-              <MathJax>{elements}</MathJax>
-            </m.div>
-          </AnimatePresence>
+          <div className="flex flex-col">
+            <AnimatePresence>
+              {elements &&
+                elements.map((element, index) => (
+                  <m.div key={index}>
+                    <MathJax>{element}</MathJax>
+                  </m.div>
+                ))}
+            </AnimatePresence>
+          </div>
         </div>
       )}
 

@@ -1,20 +1,17 @@
-import {useEffect, useState} from "react"
-import {MathJax} from "better-react-mathjax"
+import { useEffect, useState } from "react"
 import NavigationButtons from "./navigationButtons"
 import ResultNavigationButton from "./resultNavigationButtons"
 import InputErrors from "./inputErrors"
 import ReturnDisplayResult from "./returnDisplayResult"
-import {motion as m} from "framer-motion"
-import {resultSlideIn} from "../animations"
-import {AnimatePresence} from "framer-motion"
+import { motion as m } from "framer-motion"
+import { resultSlideIn } from "../animations"
+import { AnimatePresence } from "framer-motion"
 
 const ResultPage = () => {
   const displayElements = ReturnDisplayResult()
 
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [elements, setElements] = useState<JSX.Element[] | null>(
-    displayElements
-  )
+  const [elements, setElements] = useState(displayElements)
 
   const nextValue = () => {
     if (!displayElements) return
@@ -36,23 +33,21 @@ const ResultPage = () => {
     setCurrentIndex(displayElements.length - 1)
   }
 
-  //this kind of slows down performance, I will try to find a way to reduce performance, and make everything display proper.
   useEffect(() => {
-    const result = displayElements
-      ?.slice(0, currentIndex + 1)
-      .map((element, index) => (
-        <m.div
-          key={index}
-          className={` overflow-hidden w-fit`}
-          variants={resultSlideIn}
-          initial="hidden"
-          animate="visible"
-          exit="exit">
-          {element}
-        </m.div>
-      ))
+    if (!displayElements) return
+    const result = displayElements.map((element, index) => (
+      <m.div
+        key={index + `mathJaxElement`}
+        className={`child overflow-hidden w-fit`}
+        variants={resultSlideIn}
+        initial="hidden"
+        animate="visible"
+        exit="exit">
+        {element}
+      </m.div>
+    ))
 
-    if (result) setElements(result)
+    setElements(result)
   }, [])
 
   return (
@@ -73,14 +68,12 @@ const ResultPage = () => {
               indexSize={displayElements.length - 1}
             />
           </div>
+
           <div className="flex flex-col">
             <AnimatePresence>
-              {elements &&
-                elements.map((element, index) => (
-                  <m.div key={index}>
-                    <MathJax>{element}</MathJax>
-                  </m.div>
-                ))}
+              {elements?.slice(0, currentIndex + 1).map((element, index) => {
+                return <m.div key={index}>{element}</m.div>
+              })}
             </AnimatePresence>
           </div>
         </div>

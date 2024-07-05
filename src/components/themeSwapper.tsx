@@ -5,7 +5,7 @@ const ThemeSwapper = () => {
       <input
         type="checkbox"
         className="theme-controller"
-        value="pastel"
+        value="customPastel"
       />
 
       {/* moon icon */}

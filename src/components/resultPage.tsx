@@ -71,9 +71,7 @@ const ResultPage = () => {
 
           <div className="flex flex-col">
             <AnimatePresence>
-              {elements?.slice(0, currentIndex + 1).map((element, index) => {
-                return <m.div key={index}>{element}</m.div>
-              })}
+              {elements?.slice(0, currentIndex + 1)}
             </AnimatePresence>
           </div>
         </div>

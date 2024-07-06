@@ -1,44 +1,48 @@
-import { useEffect, useState } from "react"
+import {useState, useMemo, useCallback} from "react"
 import NavigationButtons from "./navigationButtons"
 import ResultNavigationButton from "./resultNavigationButtons"
 import InputErrors from "./inputErrors"
 import ReturnDisplayResult from "./returnDisplayResult"
-import { motion as m } from "framer-motion"
-import { resultSlideIn } from "../animations"
-import { AnimatePresence } from "framer-motion"
+import {motion as m} from "framer-motion"
+import {resultSlideIn} from "../animations"
+import {AnimatePresence} from "framer-motion"
 
 const ResultPage = () => {
-  const displayElements = ReturnDisplayResult()
+  const displayElements = useMemo(() => ReturnDisplayResult(), [])
 
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [elements, setElements] = useState(displayElements)
+  // const [elements, setElements] = useState(displayElements)
 
-  const nextValue = () => {
+  const nextValue = useCallback(() => {
     if (!displayElements) return
-    if (currentIndex >= displayElements.length - 1) return
-    setCurrentIndex(prev => prev + 1)
-  }
+    if (currentIndex < displayElements.length - 1) {
+      setCurrentIndex(prev => prev + 1)
+    }
+  }, [currentIndex, displayElements?.length])
 
-  const prevValue = () => {
-    if (currentIndex <= 0) return
-    setCurrentIndex(prev => prev - 1)
-  }
+  const prevValue = useCallback(() => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1)
+    }
+  }, [currentIndex])
 
-  const firstValue = () => {
+  const firstValue = useCallback(() => {
     setCurrentIndex(0)
-  }
+  }, [])
 
-  const lastValue = () => {
+  const lastValue = useCallback(() => {
     if (!displayElements) return
-    setCurrentIndex(displayElements.length - 1)
-  }
+    if (displayElements.length > 0) {
+      setCurrentIndex(displayElements.length - 1)
+    }
+  }, [displayElements?.length])
 
-  useEffect(() => {
-    if (!displayElements) return
-    const result = displayElements.map((element, index) => (
+  const renderElements = useMemo(() => {
+    if (!displayElements) return null
+    return displayElements.map((element, index) => (
       <m.div
         key={index + `mathJaxElement`}
-        className={`child overflow-hidden w-fit`}
+        className="child overflow-hidden w-fit"
         variants={resultSlideIn}
         initial="hidden"
         animate="visible"
@@ -46,8 +50,6 @@ const ResultPage = () => {
         {element}
       </m.div>
     ))
-
-    setElements(result)
   }, [])
 
   return (
@@ -71,7 +73,7 @@ const ResultPage = () => {
 
           <div className="flex flex-col">
             <AnimatePresence>
-              {elements?.slice(0, currentIndex + 1)}
+              {renderElements?.slice(0, currentIndex + 1)}
             </AnimatePresence>
           </div>
         </div>

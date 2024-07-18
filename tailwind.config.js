@@ -6,8 +6,8 @@ export default {
     extend: {
       keyframes: {
         fadeIn: {
-          "0%": { opacity: 0 },
-          "100%": { opacity: 1 },
+          "0%": {opacity: 0},
+          "100%": {opacity: 1},
         },
       },
       animation: {
@@ -30,8 +30,11 @@ export default {
       {
         customPastel: {
           "color-scheme": "light",
-          primary: "#b4e9d6",
-          secondary: "#cba2a8",
+          //primary: b4e9d6
+          primary: "#d5d9bf",
+          //secondary cba2a8
+          secondary: "#eccdc6",
+          //accent d1c1d7
           accent: "#d1c1d7",
           neutral: "#70acc7",
           "base-100": "oklch(100% 0 0)",

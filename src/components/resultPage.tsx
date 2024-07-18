@@ -1,4 +1,4 @@
-import {useState, useMemo, useCallback} from "react"
+import {useState, useMemo, useCallback, useRef, useEffect} from "react"
 import NavigationButtons from "./navigationButtons"
 import ResultNavigationButton from "./resultNavigationButtons"
 import InputErrors from "./inputErrors"
@@ -11,7 +11,14 @@ const ResultPage = () => {
   const displayElements = useMemo(() => ReturnDisplayResult(), [])
 
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  // const [elements, setElements] = useState(displayElements)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const {current} = containerRef
+    if (current && current?.children.length > 1) {
+      current.lastElementChild?.scrollIntoView({behavior: "smooth"})
+    }
+  }, [currentIndex])
 
   const nextValue = useCallback(() => {
     if (!displayElements) return
@@ -59,8 +66,8 @@ const ResultPage = () => {
       </p>
 
       {displayElements && (
-        <div className="flex flex-row flex-grow gap-32 h-fit">
-          <div className="flex items-end">
+        <div className="relative flex flex-row flex-grow gap-32 h-fit">
+          <div className="sticky self-end bottom-4">
             <ResultNavigationButton
               first={firstValue}
               last={lastValue}
@@ -71,7 +78,9 @@ const ResultPage = () => {
             />
           </div>
 
-          <div className="flex flex-col">
+          <div
+            ref={containerRef}
+            className="flex flex-col">
             <AnimatePresence>
               {renderElements?.slice(0, currentIndex + 1)}
             </AnimatePresence>

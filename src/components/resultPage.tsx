@@ -65,7 +65,7 @@ const ResultPage = () => {
         Element to reduce to Reduced Row Echelon Form(RREF)
       </p>
 
-      {displayElements && (
+      {renderElements && (
         <div className="relative flex flex-row flex-grow gap-32 h-fit">
           <div className="sticky self-end bottom-4">
             <ResultNavigationButton
@@ -74,7 +74,7 @@ const ResultPage = () => {
               next={nextValue}
               prev={prevValue}
               current={currentIndex}
-              indexSize={displayElements.length - 1}
+              indexSize={renderElements.length - 1}
             />
           </div>
 
@@ -82,13 +82,13 @@ const ResultPage = () => {
             ref={containerRef}
             className="flex flex-col">
             <AnimatePresence>
-              {renderElements?.slice(0, currentIndex + 1)}
+              {renderElements.slice(0, currentIndex + 1)}
             </AnimatePresence>
           </div>
         </div>
       )}
 
-      {!displayElements && (
+      {!renderElements && (
         <InputErrors
           error={
             "There is not input from Input page or the result is not an inversible matrix."

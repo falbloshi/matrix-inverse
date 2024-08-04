@@ -1,4 +1,4 @@
-import { useAppContext } from "../context/AppContext"
+import { useAppContext } from "../../context/AppContext"
 import ThemeSwapper from "./themeSwapper"
 
 const Navbar = () => {

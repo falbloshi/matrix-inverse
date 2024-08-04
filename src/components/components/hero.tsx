@@ -1,5 +1,5 @@
 import Title from "./title"
-import { useAppContext } from "../context/AppContext"
+import { useAppContext } from "../../context/AppContext"
 import { MathJax } from "better-react-mathjax"
 
 const Hero = () => {

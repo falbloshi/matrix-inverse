@@ -9,7 +9,9 @@ interface AppContextType {
   setInputs: (inputs: string[]) => void
   display: string | null
   setDisplay: (display: string | null) => void
-  currentPage: Page
+  currentPage: Page,
+  query: string,
+  setQuery: (query: string) => void
   setCurrentPage: (currentPage: Page) => void
   handleNavigate: (currentPage: Page, direction: PageDirection) => void
 }
@@ -33,6 +35,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [inputs, setInputs] = useState<string[]>([])
   const [display, setDisplay] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState<Page>("Home")
+  const [query, setQuery] = useState<string>("")
 
   const handleNavigate = (currentPage: Page, direction: PageDirection) => {
     const nextPage = pageNavigation(currentPage, direction)
@@ -50,6 +53,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setDisplay,
         currentPage,
         setCurrentPage,
+        query,
+        setQuery,
         handleNavigate,
       }}>
       {children}

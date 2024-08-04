@@ -1,7 +1,7 @@
-import { useAppContext } from "../context/AppContext"
+import { useAppContext } from "../../context/AppContext"
 import { MathJax } from "better-react-mathjax"
-import gaussElimination from "../utils/math/gaussElimination"
-import matrixWithRowOpsDisplay from "../utils/matrixWithRowOpsDisplay"
+import gaussElimination from "../../utils/math/gaussElimination"
+import matrixWithRowOpsDisplay from "../../utils/matrixWithRowOpsDisplay"
 
 const ReturnDisplayResult = () => {
   const { inputs } = useAppContext()

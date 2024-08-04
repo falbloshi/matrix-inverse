@@ -1,12 +1,12 @@
 import { MathJaxContext } from "better-react-mathjax"
-import Navbar from "./components/navbar"
-import HeroPage from "./components/heroPage"
-import InputPage from "./components/inputPage"
-import ResultPage from "./components/resultPage"
+import Navbar from "./components/components/navbar"
+import HeroPage from "./components/pages/heroPage"
+import InputPage from "./components/pages/inputPage"
+import ResultPage from "./components/pages/resultPage"
 import { useAppContext } from "./context/AppContext"
 import { motion as m } from "framer-motion"
 
-import { slideFromLeftSpringy } from "./animations"
+import { slideFromLeftSpringy } from "./utils/animations"
 
 
 const config = {
@@ -22,7 +22,7 @@ const config = {
     ],
   },
   svg: {
-    scale: 3.0,
+    scale: 2.0,
   },
 }
 

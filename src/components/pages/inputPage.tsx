@@ -1,6 +1,6 @@
-import SizeInput from "./sizeInput"
-import MatrixInput from "./matrixInput"
-import NavigationButtons from "./navigationButtons"
+import SizeInput from "../components/sizeInput"
+import MatrixInput from "../components/matrixInput"
+import NavigationButtons from "../components/navigationButtons"
 
 const InputPage = () => {
 

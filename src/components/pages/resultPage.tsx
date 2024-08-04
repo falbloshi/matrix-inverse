@@ -1,11 +1,11 @@
-import {useState, useMemo, useCallback, useRef, useEffect} from "react"
-import NavigationButtons from "./navigationButtons"
-import ResultNavigationButton from "./resultNavigationButtons"
-import InputErrors from "./inputErrors"
-import ReturnDisplayResult from "./returnDisplayResult"
-import {motion as m} from "framer-motion"
-import {resultSlideIn} from "../animations"
-import {AnimatePresence} from "framer-motion"
+import { useState, useMemo, useCallback, useRef, useEffect } from "react"
+import NavigationButtons from "../components/navigationButtons"
+import ResultNavigationButton from "../components/resultNavigationButtons"
+import InputErrors from "../components/inputErrors"
+import ReturnDisplayResult from "../components/returnDisplayResult"
+import { motion as m } from "framer-motion"
+import { resultSlideIn } from "../../utils/animations"
+import { AnimatePresence } from "framer-motion"
 
 const ResultPage = () => {
   const displayElements = useMemo(() => ReturnDisplayResult(), [])
@@ -14,9 +14,9 @@ const ResultPage = () => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const {current} = containerRef
+    const { current } = containerRef
     if (current && current?.children.length > 1) {
-      current.lastElementChild?.scrollIntoView({behavior: "smooth"})
+      current.lastElementChild?.scrollIntoView({ behavior: "smooth" })
     }
   }, [currentIndex])
 

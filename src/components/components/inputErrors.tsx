@@ -1,5 +1,5 @@
 import { motion as m } from "framer-motion"
-import { alertMessagePopInAndOut } from "../animations"
+import { alertMessagePopInAndOut } from "../../utils/animations"
 
 interface InputErrorsProps {
   error: string

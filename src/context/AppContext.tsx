@@ -14,6 +14,7 @@ interface AppContextType {
   setQuery: (query: string) => void
   setCurrentPage: (currentPage: Page) => void
   handleNavigate: (currentPage: Page, direction: PageDirection) => void
+  handleClear: () => void
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -42,6 +43,17 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setCurrentPage(nextPage)
   }
 
+  const handleClear = () => {
+    setMatrixSize(2)
+    const emptyArray = Array(matrixSize * matrixSize).fill("")
+    setInputs(emptyArray)
+    setQuery("")
+
+    const url = new URL(window.location.href)
+    url.searchParams.delete("inputs")
+    window.history.pushState({}, '', url)
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -56,6 +68,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         query,
         setQuery,
         handleNavigate,
+        handleClear,
       }}>
       {children}
     </AppContext.Provider>

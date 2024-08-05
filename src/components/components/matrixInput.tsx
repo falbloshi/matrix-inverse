@@ -41,9 +41,11 @@ const MatrixInput = () => {
   }, [debouncedInputs])
 
 
-  //this is the issue most likely and if you try to to type to an empty field when you change the matrixsize it crashes
+  //this is the issue most likely and if you try to to type to an empty field when you change the matrixsize it crashes <-- done
   useEffect(() => {
-    const newInputs = Array(matrixSize * matrixSize).fill("")
+    const newInputs = Array.from({ length: matrixSize * matrixSize }).map((_, i) => {
+      return inputs[i] || ""
+    })
     setInputs(newInputs)
   }, [matrixSize])
 
@@ -72,7 +74,6 @@ const MatrixInput = () => {
             />
           ))}
       </AnimatePresence>
-      <div className="alert alert-info">{inputs}</div>
       <MathJax className="ml-12">{display}</MathJax>
     </div>
   )

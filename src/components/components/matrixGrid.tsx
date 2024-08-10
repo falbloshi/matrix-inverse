@@ -11,7 +11,6 @@ const MatrixGrid: React.FC<MatrixGridProps> = ({
 }) => {
   const { inputs, setInputs, matrixSize, query, setQuery } = useAppContext()
 
-  //this setInputs is not also working, something is overriding it (found it, it is the useeffect with matrixSize dependancy in matrixInput page is refreshing it)
   useEffect(() => {
     console.log("true, we reached here")
     const urlParams = new URLSearchParams(window.location.search).get("inputs")

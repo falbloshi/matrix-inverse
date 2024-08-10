@@ -40,8 +40,6 @@ const MatrixInput = () => {
     validateInputs()
   }, [debouncedInputs])
 
-
-  //this is the issue most likely and if you try to to type to an empty field when you change the matrixsize it crashes <-- done
   useEffect(() => {
     const newInputs = Array.from({ length: matrixSize * matrixSize }).map((_, i) => {
       return inputs[i] || ""

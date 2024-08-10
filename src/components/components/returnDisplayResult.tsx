@@ -1,7 +1,8 @@
 import { useAppContext } from "../../context/AppContext"
-import { MathJax } from "better-react-mathjax"
 import gaussElimination from "../../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../../utils/matrixWithRowOpsDisplay"
+import { BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css'
 
 const ReturnDisplayResult = () => {
   const { inputs } = useAppContext()
@@ -13,7 +14,9 @@ const ReturnDisplayResult = () => {
       return matrix.map((element, index) => (
         <div key={index}>
           {index > 0 && <p className="font-serif">{index}. </p>}
-          <MathJax>{`$$${element}$$`}</MathJax>
+          <div className="text-4xl">
+            <BlockMath math={element} options={{ minRuleThickness: 5 }} />
+          </div>
         </div>
       ))
     } else return null

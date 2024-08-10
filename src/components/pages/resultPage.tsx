@@ -48,7 +48,7 @@ const ResultPage = () => {
     if (!displayElements) return null
     return displayElements.map((element, index) => (
       <m.div
-        key={index + `mathJaxElement`}
+        key={index + `katexElement`}
         className="child overflow-hidden w-fit"
         variants={resultSlideIn}
         initial="hidden"

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 import matrixDisplay from "../../utils/matrixDisplay"
 import { useDebounce } from "../../utils/hooks"
-import { MathJax } from "better-react-mathjax"
 import { useAppContext } from "../../context/AppContext"
 import InputErrors from "./inputErrors"
 import { AnimatePresence } from "framer-motion"
 import MatrixGrid from "./matrixGrid"
+import { BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css'
 
 const MatrixInput = () => {
   const { matrixSize, inputs, setInputs, display, setDisplay } = useAppContext()
@@ -72,7 +73,12 @@ const MatrixInput = () => {
             />
           ))}
       </AnimatePresence>
-      <MathJax className="ml-12">{display}</MathJax>
+      <div className="text-4xl">
+        {
+          display &&
+          <BlockMath>{display}</BlockMath>
+        }
+      </div>
     </div>
   )
 }

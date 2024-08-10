@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAppContext } from "../../context/AppContext"
 import { useDebounce } from "../../utils/hooks"
 import InputErrors from "./inputErrors"
 import { AnimatePresence } from "framer-motion"
-import { MathJax } from "better-react-mathjax"
+import { InlineMath } from 'react-katex';
+import 'katex/dist/katex.min.css'
 
 const SizeInput = () => {
   const { matrixSize, setMatrixSize, handleClear } = useAppContext()
@@ -37,12 +38,10 @@ const SizeInput = () => {
 
   return (
     <div>
-      <MathJax inline={true}>
-        <p className="paragraph mb-4">
-          {`Please input the size of your matrix (max. $\{4^2\}$) and fill the
-          matrix:`}
-        </p>
-      </MathJax>
+      <p className="paragraph mb-4">
+        Please input the size of your matrix (max {<InlineMath math={'4^2'} />} )  and fill the
+        matrix:
+      </p>
       <div className="flex gap-4">
         <input
           type="input"

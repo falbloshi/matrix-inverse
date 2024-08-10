@@ -8,3 +8,5 @@ dtm=`date +"%H:%M %d-%b-%y"`
 
 git commit -m "Update on ${dtm}"
 git push -u origin "${current_branch}"
+
+echo "Updated on ${dtm} and pushed to ${current_branch}"

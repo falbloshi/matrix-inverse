@@ -1,6 +1,7 @@
 import Title from "./title"
 import { useAppContext } from "../../context/AppContext"
-import { BlockMath } from 'react-katex';
+import { BlockMath, InlineMath } from 'react-katex';
+import Katex from './katex'
 import 'katex/dist/katex.min.css'
 
 const Hero = () => {
@@ -18,7 +19,7 @@ const Hero = () => {
       </div>
 
       <div className="text-7xl text-base-300 ml-64">
-        <BlockMath>{`\\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}`}</BlockMath>
+        <Katex options={{ output: "html" }} math={`\\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}`} />
       </div>
     </div>
   )

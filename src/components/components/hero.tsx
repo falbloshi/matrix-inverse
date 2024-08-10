@@ -1,6 +1,5 @@
 import Title from "./title"
 import { useAppContext } from "../../context/AppContext"
-import { BlockMath, InlineMath } from 'react-katex';
 import Katex from './katex'
 import 'katex/dist/katex.min.css'
 

@@ -13,11 +13,7 @@ const matrixDisplay = (input: string[]) => {
       }
     }
 
-    result += 
-    i < size - 1 
-    ? row + "\\\\\n" 
-    : row + "\n\\end{bmatrix}"
-
+    result += i < size - 1 ? row + "\\\\[0.3em]\n" : row + "\n\\end{bmatrix}"
   }
   return result
 }

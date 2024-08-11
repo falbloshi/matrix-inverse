@@ -1,6 +1,6 @@
 import Title from "./title"
 import { useAppContext } from "../../context/AppContext"
-import Katex from './katex'
+import KatexComponent from './katexComponent'
 import 'katex/dist/katex.min.css'
 
 const Hero = () => {
@@ -18,7 +18,7 @@ const Hero = () => {
       </div>
 
       <div className="text-7xl text-base-300 ml-64">
-        <Katex options={{ output: "html" }} math={`\\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}`} />
+        <KatexComponent options={{ output: "html" }} math={`\\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}`} />
       </div>
     </div>
   )

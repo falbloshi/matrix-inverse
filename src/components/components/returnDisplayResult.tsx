@@ -1,7 +1,7 @@
 import { useAppContext } from "../../context/AppContext"
 import gaussElimination from "../../utils/math/gaussElimination"
 import matrixWithRowOpsDisplay from "../../utils/matrixWithRowOpsDisplay"
-import { BlockMath } from 'react-katex';
+import KatexComponent from "./katexComponent";
 import 'katex/dist/katex.min.css'
 
 const ReturnDisplayResult = () => {
@@ -15,7 +15,7 @@ const ReturnDisplayResult = () => {
         <div key={index}>
           {index > 0 && <p className="font-serif">{index}. </p>}
           <div className="text-4xl">
-            <BlockMath math={element} options={{ minRuleThickness: 5 }} />
+            <KatexComponent math={element} />
           </div>
         </div>
       ))

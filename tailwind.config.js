@@ -31,9 +31,9 @@ export default {
         customPastel: {
           "color-scheme": "light",
           //primary: b4e9d6
-          primary: "#d5d9bf",
+          primary: "#c5d9bf",
           //secondary cba2a8
-          secondary: "#eccdc6",
+          secondary: "#e3b0a4",
           //accent d1c1d7
           accent: "#d1c1d7",
           neutral: "#70acc7",

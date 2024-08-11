@@ -26,7 +26,7 @@ const augmentedMatrixDisplay = (
 
     result +=
       i < size - 1
-        ? rowElement + "\\\\\n"
+        ? rowElement + "\\\\[0.3em]\n"
         : rowElement + "\n\\end{array}\n\\end{bmatrix}"
   }
   if (rowOps) result += ` \\qquad ${rowOps}`

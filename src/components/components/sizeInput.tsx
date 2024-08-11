@@ -12,7 +12,7 @@ const SizeInput = () => {
   const [localValue, setLocalValue] = useState<string | number>(matrixSize)
   const inputRef = useRef<HTMLInputElement>(null)
 
-
+  //still this issue is unresolved, when you move up from to 2 to 4 and then 5, it resets fine, but if you go from 2 to 5, it stays on the error 
   useEffect(() => {
     setLocalValue(matrixSize)
   }, [matrixSize])
@@ -54,7 +54,12 @@ const SizeInput = () => {
           className={`input input-bordered focus:input-primary w-12 mb-4 text-2xl focus:outline-0 ${isValid ? "" : "input-error focus:input-error"
             } `}
         />
-        <button onClick={handleClear} className="btn btn-outline">Clear</button>
+        <button onClick={handleClear} className="btn btn-outline">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+          </svg>
+
+          Clear</button>
       </div>
       <AnimatePresence>
         {!isValid && <InputErrors error={error} />}
